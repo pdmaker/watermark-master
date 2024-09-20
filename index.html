@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>批量图片加水印工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>批量图片加水印工具</h1>
+        <div>
+            <div>
+                <label for="imageInput">选择图片（最多5张）</label>
+                <input id="imageInput" type="file" accept="image/*" multiple>
+            </div>
+            <div>
+                <label for="watermarkText">水印文字</label>
+                <input id="watermarkText" type="text" placeholder="输入水印文字">
+            </div>
+            <div>
+                <label for="watermarkDensity">水印密度</label>
+                <select id="watermarkDensity">
+                    <option value="1">1x1 (1个水印)</option>
+                    <option value="2">2x2 (4个水印)</option>
+                    <option value="3" selected>3x3 (9个水印)</option>
+                    <option value="4">4x4 (16个水印)</option>
+                </select>
+            </div>
+            <div>
+                <label for="watermarkColor">水印颜色</label>
+                <input id="watermarkColor" type="text" value="#808080" placeholder="#000000">
+                <div id="colorPreview"></div>
+                <input type="color" id="colorPicker">
+            </div>
+            <div>
+                <label for="watermarkSize">水印大小</label>
+                <input id="watermarkSize" type="number" min="10" max="100" value="20" step="1">
+                <span>字号 px</span>
+            </div>
+            <button id="processButton" type="button">处理图片</button>
+        </div>
+        <div id="previewContainer"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
