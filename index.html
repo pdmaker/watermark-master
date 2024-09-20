@@ -1,73 +1,145 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>批量图片水印工具</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body class="bg-gray-100 font-sans">
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      sizes="16x16 32x32 48x48"
+      href="favicon.ico"
+    />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  </head>
+  <body class="bg-gray-100 font-sans">
     <div class="container mx-auto px-4 py-8">
-        <div class="max-w-3xl mx-auto">
-            <h1 class="text-3xl font-bold mb-2 text-center">批量图片水印工具</h1>
-            <p class="text-xl text-gray-600 mb-6 text-center">快速为多张图片添加自定义水印</p>
-            <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="imageInput">
-                        选择图片（最多5张）
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="imageInput" type="file" accept="image/*" multiple>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="watermarkText">
-                        水印文字
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="watermarkText" type="text" placeholder="输入水印文字">
-                </div>
-                <div class="mb-4 flex flex-wrap -mx-2">
-                    <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="watermarkDensity">
-                            水印密度
-                        </label>
-                        <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="watermarkDensity">
-                            <option value="1">1x1 (1个水印)</option>
-                            <option value="2">2x2 (4个水印)</option>
-                            <option value="3" selected>3x3 (9个水印)</option>
-                            <option value="4">4x4 (16个水印)</option>
-                        </select>
-                    </div>
-                    <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="watermarkColor">
-                            水印颜色
-                        </label>
-                        <div class="relative">
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="watermarkColor" type="text" value="#808080" placeholder="#000000">
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer">
-                                <div id="colorPreview" class="w-6 h-6 rounded border border-gray-300"></div>
-                            </div>
-                            <input type="color" id="colorPicker" class="absolute opacity-0 -z-10">
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-2">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="watermarkSize">
-                            水印大小(字号Px)
-                        </label>
-                        <div class="relative">
-                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="watermarkSize" type="number" min="10" max="100" value="20" step="1">
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center justify-center">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full" id="processButton" type="button">
-                        处理图片
-                    </button>
-                </div>
+      <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-bold mb-2 text-center">批量图片水印工具</h1>
+        <p class="text-xl text-gray-600 mb-6 text-center">
+          快速为多张图片添加自定义水印
+        </p>
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="imageInput"
+            >
+              选择图片（最多5张）
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="imageInput"
+              type="file"
+              accept="image/*"
+              multiple
+            />
+          </div>
+          <div class="mb-4">
+            <label
+              class="block text-gray-700 text-sm font-bold mb-2"
+              for="watermarkText"
+            >
+              水印文字
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="watermarkText"
+              type="text"
+              placeholder="输入水印文字"
+            />
+          </div>
+          <div class="mb-4 flex flex-wrap -mx-2">
+            <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="watermarkDensity"
+              >
+                水印密度
+              </label>
+              <select
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="watermarkDensity"
+              >
+                <option value="2">2x2 (4个水印)</option>
+                <option value="3" selected>3x3 (9个水印)</option>
+                <option value="4">4x4 (16个水印)</option>
+                <option value="5">5x5 (25个水印)</option>
+                <option value="6">6x6 (36个水印)</option>
+              </select>
             </div>
-            <div id="previewContainer" class="space-y-4"></div>
+            <div class="w-full md:w-1/3 px-2 mb-4 md:mb-0">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="watermarkColor"
+              >
+                水印颜色
+              </label>
+              <div class="relative">
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="watermarkColor"
+                  type="text"
+                  value="#e3e3e3"
+                  placeholder="#000000"
+                />
+                <div
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                >
+                  <div
+                    id="colorPreview"
+                    class="w-6 h-6 rounded border border-gray-300"
+                  ></div>
+                </div>
+                <input
+                  type="color"
+                  id="colorPicker"
+                  class="absolute opacity-0 -z-10"
+                />
+              </div>
+            </div>
+            <div class="w-full md:w-1/3 px-2">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="watermarkSize"
+              >
+                水印大小(字号Px)
+              </label>
+              <div class="relative">
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="watermarkSize"
+                  type="number"
+                  min="10"
+                  max="100"
+                  value="20"
+                  step="1"
+                />
+                <div
+                  class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-center">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              id="processButton"
+              type="button"
+            >
+              处理图片
+            </button>
+          </div>
         </div>
+        <div id="previewContainer" class="space-y-4"></div>
+      </div>
     </div>
+<div id="imageModal" class="modal hidden">
+    <img id="modalImage" src="" alt="放大预览" class="modal-content">
+</div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

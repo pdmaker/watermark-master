@@ -7,8 +7,39 @@ const processButton = document.getElementById('processButton');
 const previewContainer = document.getElementById('previewContainer');
 const colorPreview = document.getElementById('colorPreview');
 const colorPicker = document.getElementById('colorPicker');
+const imageModal = document.getElementById('imageModal');
+const modalImage = document.getElementById('modalImage');
 
-processButton.addEventListener('click', processImages);
+function initializeColorInput() {
+    const initialColor = '#e3e3e3';
+    watermarkColor.value = initialColor;
+    colorPicker.value = initialColor;
+    colorPreview.style.backgroundColor = initialColor;
+}
+
+// 将所有初始化和事件监听器的设置放在一个函数中
+function initialize() {
+    initializeColorInput();
+
+    processButton.addEventListener('click', processImages);
+    watermarkColor.addEventListener('input', updateColorPreview);
+    colorPreview.addEventListener('click', () => colorPicker.click());
+    colorPicker.addEventListener('input', () => {
+        watermarkColor.value = colorPicker.value;
+        updateColorPreview();
+    });
+    imageModal.addEventListener('click', function() {
+        console.log('Modal clicked'); // 添加调试日志
+        this.classList.add('hidden');
+    });
+
+    // 添加这行代码来检查元素是否正确获取
+    console.log('imageModal element:', imageModal);
+    console.log('modalImage element:', modalImage);
+}
+
+// 确保在 DOM 完全加载后执行初始化
+document.addEventListener('DOMContentLoaded', initialize);
 
 function processImages() {
     const files = imageInput.files;
@@ -70,11 +101,32 @@ function processImage(file) {
 
             const previewImg = document.createElement('img');
             previewImg.src = canvas.toDataURL();
+            previewImg.style.maxWidth = '100%';
+            previewImg.style.cursor = 'pointer';
+            previewImg.addEventListener('click', function() {
+                console.log('Image clicked'); // 添加调试日志
+                modalImage.src = this.src;
+                imageModal.classList.remove('hidden');
+                console.log('Modal should be visible now'); // 添加调试日志
+            });
             previewItem.appendChild(previewImg);
 
+            // 添加这个新函数来生成格式化的时间戳
+            function getFormattedTimestamp() {
+                const now = new Date();
+                return now.getFullYear() +
+                       String(now.getMonth() + 1).padStart(2, '0') +
+                       String(now.getDate()).padStart(2, '0') +
+                       String(now.getHours()).padStart(2, '0') +
+                       String(now.getMinutes()).padStart(2, '0');
+            }
+
+            // 修改文件命名逻辑
+            const timestamp = getFormattedTimestamp();
+            const originalFileName = file.name.split('.').slice(0, -1).join('.'); // 获取原始文件名（不包括扩展名）
+            const fileName = `${originalFileName}_${timestamp}.png`;
+            
             const downloadLink = document.createElement('a');
-            const timestamp = new Date().getTime();
-            const fileName = `${watermarkText.value}_${timestamp}.png`;
             downloadLink.href = canvas.toDataURL('image/png');
             downloadLink.download = fileName;
             downloadLink.textContent = '下载图片';
@@ -86,6 +138,7 @@ function processImage(file) {
     }
     reader.readAsDataURL(file);
 }
+
 // 添加这个函数
 function updateColorPreview() {
     const color = watermarkColor.value;
@@ -107,18 +160,12 @@ colorPicker.addEventListener('input', () => {
     updateColorPreview();
 });
 
-// 点击页面其他地方时关闭颜色选择器
-document.addEventListener('click', (event) => {
-    if (!colorPickerContainer.contains(event.target) && event.target !== colorPreview) {
-        colorPickerContainer.classList.add('hidden');
-    }
+// 确保这段代码在文件末尾
+imageModal.addEventListener('click', function() {
+    console.log('Modal clicked'); // 添加调试日志
+    this.classList.add('hidden');
 });
 
-initializeColorInput(); // 初始化颜色输入和预览
-
-function initializeColorInput() {
-    const initialColor = '#808080';
-    watermarkColor.value = initialColor;
-    colorPicker.value = initialColor;
-    colorPreview.style.backgroundColor = initialColor;
-}
+// 添加这行代码来检查元素是否正确获取
+console.log('imageModal element:', imageModal);
+console.log('modalImage element:', modalImage);

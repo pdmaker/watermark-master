@@ -1,15 +1,26 @@
 @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
 
+body {
+    background-color: #f3f4f6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 .preview-item {
     background-color: white;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border-radius: 0.5rem;
     overflow: hidden;
+    margin-bottom: 1rem;
 }
 
 .preview-item img {
     width: 100%;
     height: auto;
+    display: block;
 }
 
 .preview-item a {
@@ -18,6 +29,7 @@
     color: white;
     text-align: center;
     padding: 0.5rem 1rem;
+    text-decoration: none;
     transition: background-color 0.3s;
 }
 
@@ -31,4 +43,45 @@
 
 #colorPreview:hover {
     transform: scale(1.1);
+}
+
+#processButton {
+    width: 100%;
+}
+
+#previewContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* 在文件末尾添加以下样式 */
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
+    cursor: pointer;
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hidden {
+    display: none;
 }
