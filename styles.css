@@ -1,15 +1,28 @@
 @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
 
 .preview-item {
-    @apply bg-white shadow-md rounded-lg overflow-hidden;
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 0.5rem;
+    overflow: hidden;
 }
 
 .preview-item img {
-    @apply w-full h-auto;
+    width: 100%;
+    height: auto;
 }
 
 .preview-item a {
-    @apply block bg-blue-500 text-white text-center py-2 px-4 hover:bg-blue-700 transition duration-300;
+    display: block;
+    background-color: #3b82f6;
+    color: white;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s;
+}
+
+.preview-item a:hover {
+    background-color: #2563eb;
 }
 
 #colorPreview {

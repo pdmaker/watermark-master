@@ -7,7 +7,6 @@ const processButton = document.getElementById('processButton');
 const previewContainer = document.getElementById('previewContainer');
 const colorPreview = document.getElementById('colorPreview');
 const colorPicker = document.getElementById('colorPicker');
-const colorPickerContainer = document.getElementById('colorPickerContainer');
 
 processButton.addEventListener('click', processImages);
 
@@ -115,7 +114,7 @@ document.addEventListener('click', (event) => {
     }
 });
 
-initializeColorInput(); // 初始化颜色输和预览
+initializeColorInput(); // 初始化颜色输入和预览
 
 function initializeColorInput() {
     const initialColor = '#808080';
