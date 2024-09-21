@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>批量图片水印工具</title>
+    <title>批量图片加水印工具</title>
     <link rel="stylesheet" href="styles.css" />
     <link
       rel="icon"
@@ -16,11 +16,18 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
   </head>
   <body class="bg-gray-100 font-sans">
-    <div class="container mx-auto px-4 py-8">
+    <nav class="bg-white shadow-md">
+      <div class="container mx-auto px-4 py-3">
+        <div class="text-center">
+          <span class="text-xl font-bold text-gray-800">图极客：加水印</span>
+        </div>
+      </div>
+    </nav>
+    <div class="container mx-auto px-4 py-8 mt-16">
       <div class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold mb-2 text-center">批量图片水印工具</h1>
-        <p class="text-xl text-gray-600 mb-6 text-center">
-          快速为多张图片添加自定义水印
+        <h1 class="text-3xl font-bold mb-2 text-center">批量图片加水印工具</h1>
+        <p class="text-l text-gray-600 mb-6 text-center">
+          快速为多张图片添加自定义水印，一键生成，非常简单易用
         </p>
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div class="mb-4">
@@ -141,5 +148,15 @@
     <img id="modalImage" src="" alt="放大预览" class="modal-content">
 </div>
     <script src="script.js"></script>
+    <footer class="mt-8 py-4 bg-gray-100">
+      <div class="container mx-auto px-4">
+        <p class="text-gray-600 text-center">&copy; 2024 批量图片水印工具. 保留所有权利。</p>
+        <div class="mt-2 flex justify-center items-center space-x-4">
+          <span class="text-gray-600 font-bold">友情链接:</span>
+          <a href="https://researchtitle.textgen.net/" class="text-blue-500 hover:text-blue-700" target="_blank">AI 论文标题生成器</a>
+          <a href="https://github.com/pdmaker/watermark-master" class="text-blue-500 hover:text-blue-700" target="_blank">GitHub 项目地址</a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
