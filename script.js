@@ -9,6 +9,7 @@ const colorPreview = document.getElementById('colorPreview');
 const colorPicker = document.getElementById('colorPicker');
 const imageModal = document.getElementById('imageModal');
 const modalImage = document.getElementById('modalImage');
+const languageSelector = document.getElementById('languageSelector');
 
 function initializeColorInput() {
     const initialColor = '#e3e3e3';
@@ -36,6 +37,18 @@ function initialize() {
     // 添加这行代码来检查元素是否正确获取
     console.log('imageModal element:', imageModal);
     console.log('modalImage element:', modalImage);
+
+    languageSelector.addEventListener('change', (e) => {
+        const lang = e.target.value;
+        setLanguage(lang);
+        updateURL(lang);
+    });
+
+    // 初始化语言
+    const urlParams = new URLSearchParams(window.location.search);
+    const lang = urlParams.get('lang') || (window.location.pathname.includes('/en') ? 'en' : 'zh-CN');
+    setLanguage(lang);
+    languageSelector.value = lang;
 }
 
 // 确保在 DOM 完全加载后执行初始化
