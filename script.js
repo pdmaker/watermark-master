@@ -21,7 +21,7 @@ function initializeColorInput() {
     colorPreview.style.backgroundColor = initialColor;
 }
 
-// 将所有初始化和事件监听器的设置放在一个函数中
+// 将所有初始化和事件监听器的设置放个函数中
 function initialize() {
     initializeColorInput();
     initializeFileInput();
@@ -75,7 +75,7 @@ function processImages() {
     }
 }
 function processImage(file) {
-    console.log('Processing image:', file.name); // 添加日志
+    console.log('Processing image:', file.name);
     const reader = new FileReader();
     reader.onload = function(e) {
         const img = new Image();
@@ -104,14 +104,34 @@ function processImage(file) {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
+            // 设置旋转角度（逆时针45度）
+            const angle = -Math.PI / 4;
+
+            // 计算每个格子的大小
             const cellWidth = canvas.width / density;
             const cellHeight = canvas.height / density;
 
+            // 绘制水印
             for (let i = 0; i < density; i++) {
                 for (let j = 0; j < density; j++) {
-                    const x = cellWidth * (i + 0.5);
-                    const y = cellHeight * (j + 0.5);
-                    ctx.fillText(text, x, y);
+                    // 计算每个格子的中心点
+                    const x = (i + 0.5) * cellWidth;
+                    const y = (j + 0.5) * cellHeight;
+
+                    // 保存当前上下文状态
+                    ctx.save();
+
+                    // 移动到水印位置（格子中心）
+                    ctx.translate(x, y);
+
+                    // 旋转画布
+                    ctx.rotate(angle);
+
+                    // 绘制旋转后的水印
+                    ctx.fillText(text, 0, 0);
+
+                    // 恢复画布状态
+                    ctx.restore();
                 }
             }
 
