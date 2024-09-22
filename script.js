@@ -1,3 +1,5 @@
+import { translations, setLanguage, updateURL, currentLang } from './i18n.js';
+
 const imageInput = document.getElementById('imageInput');
 const watermarkText = document.getElementById('watermarkText');
 const watermarkDensity = document.getElementById('watermarkDensity');
@@ -21,7 +23,7 @@ function initializeColorInput() {
 // 将所有初始化和事件监听器的设置放在一个函数中
 function initialize() {
     initializeColorInput();
-
+    initializeFileInput();
     processButton.addEventListener('click', processImages);
     watermarkColor.addEventListener('input', updateColorPreview);
     colorPreview.addEventListener('click', () => colorPicker.click());
@@ -49,15 +51,18 @@ function initialize() {
     const lang = urlParams.get('lang') || (window.location.pathname.includes('/en') ? 'en' : 'zh-CN');
     setLanguage(lang);
     languageSelector.value = lang;
+
+    updateDensityOptions();
 }
 
 // 确保在 DOM 完全加载后执行初始化
 document.addEventListener('DOMContentLoaded', initialize);
 
 function processImages() {
+    console.log('Processing images...'); // 添加日志
     const files = imageInput.files;
     if (files.length === 0) {
-        alert('请选择至少一张图片');
+        alert(translations[currentLang].noImagesSelected);
         return;
     }
 
@@ -69,6 +74,7 @@ function processImages() {
     }
 }
 function processImage(file) {
+    console.log('Processing image:', file.name); // 添加日志
     const reader = new FileReader();
     reader.onload = function(e) {
         const img = new Image();
@@ -88,7 +94,7 @@ function processImage(file) {
             const size = parseInt(watermarkSize.value);
 
             if (!/^#[0-9A-Fa-f]{6}$/.test(color)) {
-                alert('请输入有效的颜色值，例如 #000000');
+                alert(translations[currentLang].invalidColorValue);
                 return;
             }
 
@@ -142,7 +148,7 @@ function processImage(file) {
             const downloadLink = document.createElement('a');
             downloadLink.href = canvas.toDataURL('image/png');
             downloadLink.download = fileName;
-            downloadLink.textContent = '下载图片';
+            downloadLink.textContent = translations[currentLang].downloadImage;
             previewItem.appendChild(downloadLink);
 
             previewContainer.appendChild(previewItem);
@@ -182,3 +188,33 @@ imageModal.addEventListener('click', function() {
 // 添加这行代码来检查元素是否正确获取
 console.log('imageModal element:', imageModal);
 console.log('modalImage element:', modalImage);
+
+function initializeFileInput() {
+    const fileInput = document.getElementById('imageInput');
+    const fileInputLabel = document.querySelector('label[for="imageInput"]');
+    const customFileButton = document.createElement('button');
+    const fileNameDisplay = document.createElement('span');
+
+    customFileButton.type = 'button';
+    customFileButton.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline';
+    customFileButton.setAttribute('data-i18n', 'chooseFile');
+    customFileButton.textContent = translations[currentLang].chooseFile;
+
+    fileNameDisplay.className = 'ml-3 text-gray-600';
+    fileNameDisplay.setAttribute('data-i18n', 'noFileChosen');
+    fileNameDisplay.textContent = translations[currentLang].noFileChosen;
+
+    fileInputLabel.parentNode.insertBefore(customFileButton, fileInputLabel.nextSibling);
+    fileInputLabel.parentNode.insertBefore(fileNameDisplay, customFileButton.nextSibling);
+    fileInput.style.display = 'none';
+
+    customFileButton.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            fileNameDisplay.textContent = `${fileInput.files.length} ${translations[currentLang].filesSelected}`;
+        } else {
+            fileNameDisplay.textContent = translations[currentLang].noFileChosen;
+        }
+    });
+}

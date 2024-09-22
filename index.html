@@ -41,6 +41,7 @@
             <label
               class="block text-gray-700 text-sm font-bold mb-2"
               for="imageInput"
+              data-i18n="selectImages"
             >
               选择图片（最多5张）
             </label>
@@ -56,6 +57,7 @@
             <label
               class="block text-gray-700 text-sm font-bold mb-2"
               for="watermarkText"
+              data-i18n="watermarkText"
             >
               水印文字
             </label>
@@ -63,7 +65,7 @@
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="watermarkText"
               type="text"
-              placeholder="输入水印文字"
+              data-i18n-placeholder="inputWatermarkText"
             />
           </div>
           <div class="mb-4 flex flex-wrap -mx-2">
@@ -71,6 +73,7 @@
               <label
                 class="block text-gray-700 text-sm font-bold mb-2"
                 for="watermarkDensity"
+                data-i18n="watermarkDensity"
               >
                 水印密度
               </label>
@@ -89,6 +92,7 @@
               <label
                 class="block text-gray-700 text-sm font-bold mb-2"
                 for="watermarkColor"
+                data-i18n="watermarkColor"
               >
                 水印颜色
               </label>
@@ -119,6 +123,7 @@
               <label
                 class="block text-gray-700 text-sm font-bold mb-2"
                 for="watermarkSize"
+                data-i18n="watermarkSize"
               >
                 水印大小(字号Px)
               </label>
@@ -143,6 +148,7 @@
               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
               id="processButton"
               type="button"
+              data-i18n="processImages"
             >
               处理图片
             </button>
@@ -154,8 +160,8 @@
 <div id="imageModal" class="modal hidden">
     <img id="modalImage" src="" alt="放大预览" class="modal-content">
 </div>
-    <script src="i18n.js"></script>
-    <script src="script.js"></script>
+    <script src="i18n.js" type="module"></script>
+    <script src="script.js" type="module"></script>
     <footer class="mt-8 py-4 bg-gray-100">
       <div class="container mx-auto px-4">
         <p class="text-gray-600 text-center">&copy; 2024 <span data-i18n="copyright">批量图片水印工具</span>. <span data-i18n="rights">保留所有权利</span>。</p>

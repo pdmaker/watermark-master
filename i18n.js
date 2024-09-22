@@ -1,3 +1,5 @@
+let currentLang = 'zh-CN'; // 默认语言
+
 const translations = {
     'zh-CN': {
         title: '批量图片加水印工具',
@@ -9,7 +11,18 @@ const translations = {
         friendlyLinks: '友情链接:',
         aiTitleGenerator: 'AI 论文标题生成器',
         githubProject: 'GitHub 项目地址',
-        // 添加其他中文翻译
+        selectImages: '选择图片（最多5张）',
+        watermarkText: '水印文字',
+        watermarkDensity: '水印密度',
+        watermarkColor: '水印颜色',
+        watermarkSize: '水印大小(字号Px)',
+        processImages: '处理图片',
+        inputWatermarkText: '输入水印文字',
+        chooseFile: '选择文件',
+        noFileChosen: '未选择文件',
+        downloadImage: '下载图片',
+        invalidColorValue: '请输入有效的颜色值，例如 #000000',
+        noImagesSelected: '请选择至少一张图片'
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -21,15 +34,31 @@ const translations = {
         friendlyLinks: 'Friendly Links:',
         aiTitleGenerator: 'AI Paper Title Generator',
         githubProject: 'GitHub Project',
-        // 添加其他英文翻译
+        selectImages: 'Select Images (Max 5)',
+        watermarkText: 'Watermark Text',
+        watermarkDensity: 'Watermark Density',
+        watermarkColor: 'Watermark Color',
+        watermarkSize: 'Watermark Size (Font Size in Px)',
+        processImages: 'Process Images',
+        inputWatermarkText: 'Enter watermark text',
+        chooseFile: 'Choose File',
+        noFileChosen: 'No file chosen',
+        downloadImage: 'Download Image',
+        invalidColorValue: 'Please enter a valid color value, e.g. #000000',
+        noImagesSelected: 'Please select at least one image'
     }
 };
 
 function setLanguage(lang) {
+    currentLang = lang; // 更新当前语言
     document.documentElement.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach(elem => {
         const key = elem.getAttribute('data-i18n');
         elem.textContent = translations[lang][key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
+        const key = elem.getAttribute('data-i18n-placeholder');
+        elem.placeholder = translations[lang][key];
     });
 }
 
@@ -39,14 +68,18 @@ function updateURL(lang) {
     history.pushState(null, '', baseURL + newPath);
 }
 
-document.getElementById('languageSelector').addEventListener('change', (e) => {
-    const lang = e.target.value;
-    setLanguage(lang);
-    updateURL(lang);
-});
+// 移除这个事件监听器，我们会在 script.js 中处理
+// document.getElementById('languageSelector').addEventListener('change', (e) => {
+//     const lang = e.target.value;
+//     setLanguage(lang);
+//     updateURL(lang);
+// });
 
-// 初始化语言
-const urlParams = new URLSearchParams(window.location.search);
-const lang = urlParams.get('lang') || (window.location.pathname.includes('/en') ? 'en' : 'zh-CN');
-setLanguage(lang);
-document.getElementById('languageSelector').value = lang;
+// 移除这个初始化代码，我们会在 script.js 中处理
+// const urlParams = new URLSearchParams(window.location.search);
+// const lang = urlParams.get('lang') || (window.location.pathname.includes('/en') ? 'en' : 'zh-CN');
+// setLanguage(lang);
+// document.getElementById('languageSelector').value = lang;
+
+// 导出所需的函数和变量
+export { translations, setLanguage, updateURL, currentLang };
