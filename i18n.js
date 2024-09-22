@@ -22,30 +22,36 @@ const translations = {
         noFileChosen: '未选择文件',
         downloadImage: '下载图片',
         invalidColorValue: '请输入有效的颜色值，例如 #000000',
-        noImagesSelected: '请选择至少一张图片'
+        noImagesSelected: '请选择至少一张图片',
+        filesSelected: '张图片已选择',
+        fileSelected: '张图片已选择',
+        filesSelected: '张图片已选择'
     },
     'en': {
         title: 'Batch Image Watermark Tool',
-        logo: 'ImageGeek: Watermark',
+        logo: 'TUJIKE: Watermark',
         heading: 'Batch Image Watermark Tool',
         subheading: 'Quickly add custom watermarks to multiple images, generate with one click, very simple and easy to use',
         copyright: 'Batch Image Watermark Tool',
         rights: 'All rights reserved',
         friendlyLinks: 'Friendly Links:',
-        aiTitleGenerator: 'AI Paper Title Generator',
+        aiTitleGenerator: 'AI Research Title Generator',
         githubProject: 'GitHub Project',
         selectImages: 'Select Images (Max 5)',
         watermarkText: 'Watermark Text',
         watermarkDensity: 'Watermark Density',
         watermarkColor: 'Watermark Color',
-        watermarkSize: 'Watermark Size (Font Size in Px)',
+        watermarkSize: 'Watermark Size (Px)',
         processImages: 'Process Images',
         inputWatermarkText: 'Enter watermark text',
         chooseFile: 'Choose File',
         noFileChosen: 'No file chosen',
         downloadImage: 'Download Image',
         invalidColorValue: 'Please enter a valid color value, e.g. #000000',
-        noImagesSelected: 'Please select at least one image'
+        noImagesSelected: 'Please select at least one image',
+        filesSelected: 'images selected',
+        fileSelected: 'image selected',
+        filesSelected: 'images selected'
     }
 };
 

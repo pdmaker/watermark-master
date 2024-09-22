@@ -212,7 +212,11 @@ function initializeFileInput() {
 
     fileInput.addEventListener('change', () => {
         if (fileInput.files.length > 0) {
-            fileNameDisplay.textContent = `${fileInput.files.length} ${translations[currentLang].filesSelected}`;
+            const fileCount = fileInput.files.length;
+            const filesSelectedText = fileCount === 1 
+                ? translations[currentLang].fileSelected 
+                : translations[currentLang].filesSelected;
+            fileNameDisplay.textContent = `${fileCount} ${filesSelectedText}`;
         } else {
             fileNameDisplay.textContent = translations[currentLang].noFileChosen;
         }
