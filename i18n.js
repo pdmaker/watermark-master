@@ -15,7 +15,7 @@ const translations = {
         watermarkText: '水印文字',
         watermarkDensity: '水印密度',
         watermarkColor: '水印颜色',
-        watermarkSize: '水印大小(字号Px)',
+        watermarkSize: '水印字号(Px)',
         processImages: '处理图片',
         inputWatermarkText: '输入水印文字',
         chooseFile: '选择文件',
@@ -29,7 +29,7 @@ const translations = {
     },
     'en': {
         title: 'Batch Image Watermark Tool',
-        logo: 'TUJIKE: Watermark',
+        logo: 'TUJIKE: Watermark Adder',
         heading: 'Batch Image Watermark Tool',
         subheading: 'Quickly add custom watermarks to multiple images, generate with one click, very simple and easy to use',
         copyright: 'Batch Image Watermark Tool',

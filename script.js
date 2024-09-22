@@ -12,6 +12,7 @@ const colorPicker = document.getElementById('colorPicker');
 const imageModal = document.getElementById('imageModal');
 const modalImage = document.getElementById('modalImage');
 const languageSelector = document.getElementById('languageSelector');
+const processingLoader = document.getElementById('processingLoader');
 
 function initializeColorInput() {
     const initialColor = '#e3e3e3';
@@ -222,3 +223,20 @@ function initializeFileInput() {
         }
     });
 }
+
+processButton.addEventListener('click', async () => {
+    // 显示处理中的 loader
+    processingLoader.style.display = 'block';
+    processButton.disabled = true;
+
+    try {
+        // 这里是您处理图片的代码
+        // await processImages();
+    } catch (error) {
+        console.error('处理图片时出错:', error);
+    } finally {
+        // 隐藏处理中的 loader
+        processingLoader.style.display = 'none';
+        processButton.disabled = false;
+    }
+});
