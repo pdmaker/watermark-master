@@ -3,7 +3,7 @@ let currentLang = 'zh-CN'; // 默认语言
 const translations = {
     'zh-CN': {
         title: '批量图片加水印工具',
-        logo: '图极客：加水印',
+        logo: '加水印.com',
         heading: '批量图片加水印工具',
         subheading: '快速为多张图片添加自定义水印，一键生成，非常简单易用',
         copyright: '批量图片水印工具',
@@ -29,7 +29,7 @@ const translations = {
     },
     'en': {
         title: 'Batch Image Watermark Tool',
-        logo: 'TUJIKE: Watermark Adder',
+        logo: 'Watermark Adder',
         heading: 'Batch Image Watermark Tool',
         subheading: 'Quickly add custom watermarks to multiple images, generate with one click, very simple and easy to use',
         copyright: 'Batch Image Watermark Tool',
@@ -73,19 +73,5 @@ function updateURL(lang) {
     const newPath = lang === 'en' ? '/en' : '/';
     history.pushState(null, '', baseURL + newPath);
 }
-
-// 移除这个事件监听器，我们会在 script.js 中处理
-// document.getElementById('languageSelector').addEventListener('change', (e) => {
-//     const lang = e.target.value;
-//     setLanguage(lang);
-//     updateURL(lang);
-// });
-
-// 移除这个初始化代码，我们会在 script.js 中处理
-// const urlParams = new URLSearchParams(window.location.search);
-// const lang = urlParams.get('lang') || (window.location.pathname.includes('/en') ? 'en' : 'zh-CN');
-// setLanguage(lang);
-// document.getElementById('languageSelector').value = lang;
-
 // 导出所需的函数和变量
 export { translations, setLanguage, updateURL, currentLang };
