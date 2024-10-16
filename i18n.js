@@ -2,14 +2,14 @@ let currentLang = 'zh-CN'; // 默认语言
 
 const translations = {
     'zh-CN': {
-        title: '批量图片加水印工具',
+        title: '简易图片加水印，防盗图称心如意',
         logo: '加水印.com',
-        heading: '批量图片加水印工具',
+        heading: '简易图片加水印工具，防盗图必备',
         subheading: '快速为多张图片添加自定义水印，一键生成，非常简单易用',
-        copyright: '批量图片水印工具',
+        copyright: '简易图片加水印工具，防盗图必备',
         rights: '保留所有权利',
         friendlyLinks: '友情链接:',
-        aiTitleGenerator: 'AI 论文标题生成器',
+        aiTitleGenerator: 'AI论文标题生成器',
         githubProject: 'GitHub 项目地址',
         selectImages: '选择图片（最多5张）',
         watermarkText: '水印文字',
