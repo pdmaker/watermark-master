@@ -165,7 +165,7 @@ function processImage(file) {
                 console.log('Image clicked'); // 添加调试日志
                 modalImage.src = this.src;
                 imageModal.classList.remove('hidden');
-                console.log('Modal should be visible now'); // 添加调试日志
+                console.log('Modal should be visible now'); // 添加调试日���
             });
             previewItem.appendChild(previewImg);
 
@@ -379,4 +379,3 @@ function getFormattedTimestamp() {
            String(now.getHours()).padStart(2, '0') +
            String(now.getMinutes()).padStart(2, '0');
 }
-
