@@ -30,7 +30,9 @@ const translations = {
         resetButton: '重置',
         watermarkResults: '加水印结果',
         downloadAll: '一键全部下载',
-        noImagesToDownload: '没有可下载的图片'
+        noImagesToDownload: '没有可下载的图片',
+        processImagesShort: '处理',
+        resetButtonShort: '重置'
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -61,7 +63,9 @@ const translations = {
         resetButton: 'Reset',
         watermarkResults: 'Watermark Results',
         downloadAll: 'Download All',
-        noImagesToDownload: 'No images to download'
+        noImagesToDownload: 'No images to download',
+        processImagesShort: 'Process',
+        resetButtonShort: 'Reset'
     }
 };
 

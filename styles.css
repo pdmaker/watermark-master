@@ -124,3 +124,70 @@ body {
 #pasteArea:hover span {
     color: #2563eb !important; /* 鼠标悬停时的颜色变化 */
 }
+
+/* 添加响应式布局样式 */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  #processButton, #resetButton {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+
+  #watermarkDensity, #watermarkColor, #watermarkSize {
+    font-size: 0.875rem;
+  }
+
+  .preview-item img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* 优化按钮布局 */
+.button-container {
+  display: flex;
+  width: 100%;
+}
+
+.process-button {
+  flex: 1.618;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0; /* 这行很重要，允许按钮在必要时缩小 */
+}
+
+.reset-button {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0; /* 这行很重要，允许按钮在必要时缩小 */
+}
+
+/* 针对移动设备的样式 */
+@media (max-width: 640px) {
+  .process-button, .reset-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* 优化预览区域布局 */
+#imagePreviewArea {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+#imagePreviewArea img {
+  width: 4rem;
+  height: 4rem;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}

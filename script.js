@@ -70,6 +70,8 @@ function initialize() {
     downloadAllButton.addEventListener('click', downloadAllImages);
 
     updateImagePreview();
+    handleMobileInteraction();
+    window.addEventListener('resize', handleMobileInteraction);
 }
 
 // 确保在 DOM 完全加载后执行初始化
@@ -165,7 +167,7 @@ function processImage(file) {
                 console.log('Image clicked'); // 添加调试日志
                 modalImage.src = this.src;
                 imageModal.classList.remove('hidden');
-                console.log('Modal should be visible now'); // 添加调试日���
+                console.log('Modal should be visible now'); // 添加调试日志
             });
             previewItem.appendChild(previewImg);
 
@@ -262,7 +264,7 @@ processButton.addEventListener('click', async () => {
 // 修改 handleFileSelect 函数
 function handleFileSelect(e) {
     const files = e.target.files;
-    uploadedFiles = Array.from(files); // 直接替换uploadedFiles，而不是添加
+    uploadedFiles = uploadedFiles.concat(Array.from(files)); // 使用 concat 来添加新文件
     updateFileNameDisplay();
     updateImagePreview();
 }
@@ -273,16 +275,16 @@ function handlePaste(e) {
     e.stopPropagation();
 
     const items = e.clipboardData.items;
-    const files = [];
+    const newFiles = [];
 
     for (let i = 0; i < items.length; i++) {
         if (items[i].type.indexOf('image') !== -1) {
             const blob = items[i].getAsFile();
-            files.push(blob);
+            newFiles.push(blob);
         }
     }
 
-    uploadedFiles = files; // 直接替换uploadedFiles，而不是添加
+    uploadedFiles = uploadedFiles.concat(newFiles); // 使用 concat 来添加新文件
     updateFileNameDisplay();
     updateImagePreview();
 }
@@ -318,6 +320,14 @@ function updateImagePreview() {
             reader.readAsDataURL(file);
         }
     });
+
+    // 如果上传的文件超过20个，显示一个提示
+    if (uploadedFiles.length > 20) {
+        const message = document.createElement('p');
+        message.textContent = `只显示前20张图片预览，共${uploadedFiles.length}张图片已上传`;
+        message.className = 'text-sm text-gray-500 mt-2';
+        imagePreviewArea.appendChild(message);
+    }
 }
 
 // 添加重置函数
@@ -378,4 +388,18 @@ function getFormattedTimestamp() {
            String(now.getDate()).padStart(2, '0') +
            String(now.getHours()).padStart(2, '0') +
            String(now.getMinutes()).padStart(2, '0');
+}
+
+function handleMobileInteraction() {
+  const isMobile = window.innerWidth <= 640;
+  const processButton = document.getElementById('processButton');
+  const resetButton = document.getElementById('resetButton');
+
+  if (isMobile) {
+    processButton.textContent = translations[currentLang].processImagesShort;
+    resetButton.textContent = translations[currentLang].resetButtonShort;
+  } else {
+    processButton.textContent = translations[currentLang].processImages;
+    resetButton.textContent = translations[currentLang].resetButton;
+  }
 }
