@@ -1,4 +1,6 @@
 import { translations, setLanguage, updateURL, currentLang } from './i18n.js';
+import JSZip from 'https://jspm.dev/jszip';
+import FileSaver from 'https://jspm.dev/file-saver';
 
 const imageInput = document.getElementById('imageInput');
 const watermarkText = document.getElementById('watermarkText');
@@ -16,6 +18,8 @@ const processingLoader = document.getElementById('processingLoader');
 const imagePreviewArea = document.getElementById('imagePreviewArea');
 const resetButton = document.getElementById('resetButton');
 let uploadedFiles = []; // 用于存储已上传的文件
+const downloadAllButton = document.getElementById('downloadAllButton');
+const resultSection = document.getElementById('resultSection');
 
 function initializeColorInput() {
     const initialColor = '#e3e3e3';
@@ -36,11 +40,10 @@ function initialize() {
         updateColorPreview();
     });
     imageModal.addEventListener('click', function() {
-        console.log('Modal clicked'); // 添加调试日志
+        console.log('Modal clicked');
         this.classList.add('hidden');
     });
 
-    // 添加这行代码来检查元素是否正确获取
     console.log('imageModal element:', imageModal);
     console.log('modalImage element:', modalImage);
 
@@ -50,21 +53,23 @@ function initialize() {
         updateURL(lang);
     });
 
-    // 初始化语言
     const urlParams = new URLSearchParams(window.location.search);
     const lang = urlParams.get('lang') || (window.location.pathname.includes('/en') ? 'en' : 'zh-CN');
     setLanguage(lang);
     languageSelector.value = lang;
 
-    // 添加粘贴区域的事件监听器
+    // 修改这部分代码
     const pasteArea = document.getElementById('pasteArea');
+    const imageInput = document.getElementById('imageInput');
     pasteArea.addEventListener('click', () => imageInput.click());
     pasteArea.addEventListener('paste', handlePaste);
     document.addEventListener('paste', handlePaste);
-
-    updateImagePreview();
+    imageInput.addEventListener('change', handleFileSelect);
 
     resetButton.addEventListener('click', resetAll);
+    downloadAllButton.addEventListener('click', downloadAllImages);
+
+    updateImagePreview();
 }
 
 // 确保在 DOM 完全加载后执行初始化
@@ -77,12 +82,15 @@ function processImages() {
         return;
     }
 
-    const maxFiles = Math.min(uploadedFiles.length, 5);
+    const maxFiles = Math.min(uploadedFiles.length, 20);
     previewContainer.innerHTML = ''; // 清空之前的预览
 
     for (let i = 0; i < maxFiles; i++) {
         processImage(uploadedFiles[i]);
     }
+
+    // 处理完成后显示结果部分
+    resultSection.classList.remove('hidden');
 }
 function processImage(file) {
     console.log('Processing image:', file.name);
@@ -231,13 +239,7 @@ function initializeFileInput() {
 
     pasteArea.parentNode.insertBefore(fileNameDisplay, pasteArea.nextSibling);
 
-    fileInput.addEventListener('change', () => {
-        const newFiles = Array.from(fileInput.files);
-        uploadedFiles = uploadedFiles.concat(newFiles);
-        updateFileInput();
-        updateFileNameDisplay();
-        updateImagePreview();
-    });
+    fileInput.addEventListener('change', handleFileSelect);
 }
 
 processButton.addEventListener('click', async () => {
@@ -257,30 +259,35 @@ processButton.addEventListener('click', async () => {
     }
 });
 
-// 处理粘贴事件的函数
+// 修改 handleFileSelect 函数
+function handleFileSelect(e) {
+    const files = e.target.files;
+    uploadedFiles = Array.from(files); // 直接替换uploadedFiles，而不是添加
+    updateFileNameDisplay();
+    updateImagePreview();
+}
+
+// 修改 handlePaste 函数
 function handlePaste(e) {
     e.preventDefault();
     e.stopPropagation();
 
     const items = e.clipboardData.items;
-    const newFiles = [];
+    const files = [];
 
     for (let i = 0; i < items.length; i++) {
         if (items[i].type.indexOf('image') !== -1) {
             const blob = items[i].getAsFile();
-            newFiles.push(blob);
+            files.push(blob);
         }
     }
 
-    if (newFiles.length > 0) {
-        uploadedFiles = uploadedFiles.concat(newFiles);
-        updateFileInput();
-        updateFileNameDisplay();
-        updateImagePreview();
-    }
+    uploadedFiles = files; // 直接替换uploadedFiles，而不是添加
+    updateFileNameDisplay();
+    updateImagePreview();
 }
 
-// 更新文件名显示的函数
+// 修改 updateFileNameDisplay 函数
 function updateFileNameDisplay() {
     const fileNameDisplay = document.querySelector('span[data-i18n="noFileChosen"]');
     
@@ -295,12 +302,12 @@ function updateFileNameDisplay() {
     }
 }
 
-// 添加新的函数来更新图片预览
+// 修改 updateImagePreview 函数
 function updateImagePreview() {
     imagePreviewArea.innerHTML = ''; // 清空现有预览
 
     uploadedFiles.forEach((file, index) => {
-        if (index < 5) { // 限制最多显示5个预览
+        if (index < 20) { // 限制最多显示20个预览
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = document.createElement('img');
@@ -325,6 +332,8 @@ function resetAll() {
     document.getElementById('watermarkSize').value = '20';
     updateColorPreview();
     previewContainer.innerHTML = '';
+    // 重置时隐藏结果部分
+    resultSection.classList.add('hidden');
 }
 
 // 添加新的函数来更新文件输入
@@ -333,3 +342,41 @@ function updateFileInput() {
     uploadedFiles.forEach(file => dt.items.add(file));
     document.getElementById('imageInput').files = dt.files;
 }
+
+// 添加新的函数来处理一键下载
+async function downloadAllImages() {
+    if (previewContainer.children.length === 0) {
+        alert(translations[currentLang].noImagesToDownload);
+        return;
+    }
+
+    const zip = new JSZip();
+    const watermarkTextValue = watermarkText.value || 'watermark';
+    const timestamp = getFormattedTimestamp();
+    const zipFilename = `${watermarkTextValue}-${timestamp}.zip`;
+
+    // 收集所有图片 URL
+    const imageUrls = Array.from(previewContainer.querySelectorAll('img')).map(img => img.src);
+
+    // 添加所有图片到 zip
+    for (let i = 0; i < imageUrls.length; i++) {
+        const imageBlob = await fetch(imageUrls[i]).then(r => r.blob());
+        zip.file(`image-${i+1}.png`, imageBlob);
+    }
+
+    // 生成并下载 zip 文件
+    zip.generateAsync({type:"blob"}).then(function(content) {
+        FileSaver.saveAs(content, zipFilename);
+    });
+}
+
+// 添加这个辅助函数来生成时间戳
+function getFormattedTimestamp() {
+    const now = new Date();
+    return now.getFullYear() +
+           String(now.getMonth() + 1).padStart(2, '0') +
+           String(now.getDate()).padStart(2, '0') +
+           String(now.getHours()).padStart(2, '0') +
+           String(now.getMinutes()).padStart(2, '0');
+}
+

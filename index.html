@@ -41,7 +41,7 @@
       <div class="max-w-3xl mx-auto">
         <h1 class="text-3xl font-bold mb-2 text-center" data-i18n="heading">简易图片加水印，防盗图必备</h1>
         <p class="text-l text-gray-600 mb-6 text-center" data-i18n="subheading">
-          快速为多张图片添加自定义水印，一键生成，非常简单易用
+          快速为多张图添加自定义水印，一���生成，非常简单易用
         </p>
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div class="mb-4">
@@ -50,7 +50,7 @@
               for="imageInput"
               data-i18n="selectImages"
             >
-              选择图片（最多5张）
+              选择图片（最多20张）
             </label>
             <input
               id="imageInput"
@@ -185,7 +185,20 @@
             </div>
           </div>
         </div>
-        <div id="previewContainer" class="space-y-4"></div>
+        <!-- 在 previewContainer 上方添加以下代码 -->
+        <div id="resultSection" class="hidden">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold" data-i18n="watermarkResults">加水印结果</h3>
+            <button
+              id="downloadAllButton"
+              class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              data-i18n="downloadAll"
+            >
+              一键全部下载
+            </button>
+          </div>
+          <div id="previewContainer" class="space-y-4"></div>
+        </div>
       </div>
     </div>
 <div id="imageModal" class="modal hidden">

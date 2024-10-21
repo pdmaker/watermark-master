@@ -11,7 +11,7 @@ const translations = {
         friendlyLinks: '友情链接:',
         aiTitleGenerator: 'AI论文标题生成器',
         githubProject: 'GitHub 项目地址',
-        selectImages: '选择图片（最多5张）',
+        selectImages: '选择图片（最多20张）',
         watermarkText: '水印文字',
         watermarkDensity: '水印密度',
         watermarkColor: '水印颜色',
@@ -27,7 +27,10 @@ const translations = {
         fileSelected: '张图片已选择',
         filesSelected: '张图片已选择',
         pasteAreaText: '点击上传或直接粘贴图片',
-        resetButton: '重置'
+        resetButton: '重置',
+        watermarkResults: '加水印结果',
+        downloadAll: '一键全部下载',
+        noImagesToDownload: '没有可下载的图片'
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -39,7 +42,7 @@ const translations = {
         friendlyLinks: 'Friendly Links:',
         aiTitleGenerator: 'AI Research Title Generator',
         githubProject: 'GitHub Project',
-        selectImages: 'Select Images (Max 5)',
+        selectImages: 'Select Images (Max 20)',
         watermarkText: 'Watermark Text',
         watermarkDensity: 'Watermark Density',
         watermarkColor: 'Watermark Color',
@@ -55,7 +58,10 @@ const translations = {
         fileSelected: 'image selected',
         filesSelected: 'images selected',
         pasteAreaText: 'Click to upload or paste images directly',
-        resetButton: 'Reset'
+        resetButton: 'Reset',
+        watermarkResults: 'Watermark Results',
+        downloadAll: 'Download All',
+        noImagesToDownload: 'No images to download'
     }
 };
 
