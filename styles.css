@@ -114,3 +114,13 @@ body {
     display: none;
     margin-top: 10px;
   }
+
+/* 添加以下样式到文件末尾 */
+#pasteArea span {
+    color: #3b82f6 !important; /* 使用 !important 来确保这个样式会被应用 */
+    font-weight: normal; /* 可选：使文字加粗 */
+}
+
+#pasteArea:hover span {
+    color: #2563eb !important; /* 鼠标悬停时的颜色变化 */
+}

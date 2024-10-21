@@ -18,14 +18,16 @@ const translations = {
         watermarkSize: '水印字号(Px)',
         processImages: '处理图片',
         inputWatermarkText: '输入水印文字',
-        chooseFile: '选择文件',
-        noFileChosen: '未选择文件',
+        chooseFile: '选择图片',
+        noFileChosen: '未选择图片',
         downloadImage: '下载图片',
         invalidColorValue: '请输入有效的颜色值，例如 #000000',
         noImagesSelected: '请选择至少一张图片',
         filesSelected: '张图片已选择',
         fileSelected: '张图片已选择',
-        filesSelected: '张图片已选择'
+        filesSelected: '张图片已选择',
+        pasteAreaText: '点击上传或直接粘贴图片',
+        resetButton: '重置'
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -51,7 +53,9 @@ const translations = {
         noImagesSelected: 'Please select at least one image',
         filesSelected: 'images selected',
         fileSelected: 'image selected',
-        filesSelected: 'images selected'
+        filesSelected: 'images selected',
+        pasteAreaText: 'Click to upload or paste images directly',
+        resetButton: 'Reset'
     }
 };
 

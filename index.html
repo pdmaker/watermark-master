@@ -53,12 +53,21 @@
               选择图片（最多5张）
             </label>
             <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="imageInput"
               type="file"
               accept="image/*"
               multiple
+              class="hidden"
             />
+            <!-- 修改粘贴区域的样式，添加文本颜色 -->
+            <div
+              id="pasteArea"
+              class="mt-2 border-2 border-dashed border-blue-500 rounded-lg p-6 text-center cursor-pointer hover:bg-blue-50 transition-colors duration-300"
+            >
+              <span data-i18n="pasteAreaText">点击上传或直接粘贴图片</span>
+            </div>
+            <!-- 在粘贴区域下方添加预览区域 -->
+            <div id="imagePreviewArea" class="mt-2 flex flex-wrap gap-2"></div>
           </div>
           <div class="mb-4">
             <label
@@ -151,14 +160,24 @@
             </div>
           </div>
           <div class="flex items-center justify-center flex-col">
-            <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
-              id="processButton"
-              type="button"
-              data-i18n="processImages"
-            >
-              处理图片
-            </button>
+            <div class="flex w-full space-x-4">
+              <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-3/4"
+                id="processButton"
+                type="button"
+                data-i18n="processImages"
+              >
+                处理图片
+              </button>
+              <button
+                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-1/4"
+                id="resetButton"
+                type="button"
+                data-i18n="resetButton"
+              >
+                重置
+              </button>
+            </div>
             <div id="processingLoader" class="processing-loader">
               <div class="loader"></div>
               <p class="mt-2" data-i18n="processingImages">正在处理图片，请稍候...</p>

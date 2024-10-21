@@ -13,6 +13,9 @@ const imageModal = document.getElementById('imageModal');
 const modalImage = document.getElementById('modalImage');
 const languageSelector = document.getElementById('languageSelector');
 const processingLoader = document.getElementById('processingLoader');
+const imagePreviewArea = document.getElementById('imagePreviewArea');
+const resetButton = document.getElementById('resetButton');
+let uploadedFiles = []; // 用于存储已上传的文件
 
 function initializeColorInput() {
     const initialColor = '#e3e3e3';
@@ -53,25 +56,32 @@ function initialize() {
     setLanguage(lang);
     languageSelector.value = lang;
 
-    updateDensityOptions();
+    // 添加粘贴区域的事件监听器
+    const pasteArea = document.getElementById('pasteArea');
+    pasteArea.addEventListener('click', () => imageInput.click());
+    pasteArea.addEventListener('paste', handlePaste);
+    document.addEventListener('paste', handlePaste);
+
+    updateImagePreview();
+
+    resetButton.addEventListener('click', resetAll);
 }
 
 // 确保在 DOM 完全加载后执行初始化
 document.addEventListener('DOMContentLoaded', initialize);
 
 function processImages() {
-    console.log('Processing images...'); // 添加日志
-    const files = imageInput.files;
-    if (files.length === 0) {
+    console.log('Processing images...');
+    if (uploadedFiles.length === 0) {
         alert(translations[currentLang].noImagesSelected);
         return;
     }
 
-    const maxFiles = Math.min(files.length, 5);
+    const maxFiles = Math.min(uploadedFiles.length, 5);
     previewContainer.innerHTML = ''; // 清空之前的预览
 
     for (let i = 0; i < maxFiles; i++) {
-        processImage(files[i]);
+        processImage(uploadedFiles[i]);
     }
 }
 function processImage(file) {
@@ -212,35 +222,21 @@ console.log('modalImage element:', modalImage);
 
 function initializeFileInput() {
     const fileInput = document.getElementById('imageInput');
-    const fileInputLabel = document.querySelector('label[for="imageInput"]');
-    const customFileButton = document.createElement('button');
+    const pasteArea = document.getElementById('pasteArea');
     const fileNameDisplay = document.createElement('span');
 
-    customFileButton.type = 'button';
-    customFileButton.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline';
-    customFileButton.setAttribute('data-i18n', 'chooseFile');
-    customFileButton.textContent = translations[currentLang].chooseFile;
-
-    fileNameDisplay.className = 'ml-3 text-gray-600';
+    fileNameDisplay.className = 'mt-2 text-gray-600 block';
     fileNameDisplay.setAttribute('data-i18n', 'noFileChosen');
     fileNameDisplay.textContent = translations[currentLang].noFileChosen;
 
-    fileInputLabel.parentNode.insertBefore(customFileButton, fileInputLabel.nextSibling);
-    fileInputLabel.parentNode.insertBefore(fileNameDisplay, customFileButton.nextSibling);
-    fileInput.style.display = 'none';
-
-    customFileButton.addEventListener('click', () => fileInput.click());
+    pasteArea.parentNode.insertBefore(fileNameDisplay, pasteArea.nextSibling);
 
     fileInput.addEventListener('change', () => {
-        if (fileInput.files.length > 0) {
-            const fileCount = fileInput.files.length;
-            const filesSelectedText = fileCount === 1 
-                ? translations[currentLang].fileSelected 
-                : translations[currentLang].filesSelected;
-            fileNameDisplay.textContent = `${fileCount} ${filesSelectedText}`;
-        } else {
-            fileNameDisplay.textContent = translations[currentLang].noFileChosen;
-        }
+        const newFiles = Array.from(fileInput.files);
+        uploadedFiles = uploadedFiles.concat(newFiles);
+        updateFileInput();
+        updateFileNameDisplay();
+        updateImagePreview();
     });
 }
 
@@ -260,3 +256,80 @@ processButton.addEventListener('click', async () => {
         processButton.disabled = false;
     }
 });
+
+// 处理粘贴事件的函数
+function handlePaste(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const items = e.clipboardData.items;
+    const newFiles = [];
+
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+            const blob = items[i].getAsFile();
+            newFiles.push(blob);
+        }
+    }
+
+    if (newFiles.length > 0) {
+        uploadedFiles = uploadedFiles.concat(newFiles);
+        updateFileInput();
+        updateFileNameDisplay();
+        updateImagePreview();
+    }
+}
+
+// 更新文件名显示的函数
+function updateFileNameDisplay() {
+    const fileNameDisplay = document.querySelector('span[data-i18n="noFileChosen"]');
+    
+    if (uploadedFiles.length > 0) {
+        const fileCount = uploadedFiles.length;
+        const filesSelectedText = fileCount === 1 
+            ? translations[currentLang].fileSelected 
+            : translations[currentLang].filesSelected;
+        fileNameDisplay.textContent = `${fileCount} ${filesSelectedText}`;
+    } else {
+        fileNameDisplay.textContent = translations[currentLang].noFileChosen;
+    }
+}
+
+// 添加新的函数来更新图片预览
+function updateImagePreview() {
+    imagePreviewArea.innerHTML = ''; // 清空现有预览
+
+    uploadedFiles.forEach((file, index) => {
+        if (index < 5) { // 限制最多显示5个预览
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'w-16 h-16 object-cover rounded';
+                imagePreviewArea.appendChild(img);
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// 添加重置函数
+function resetAll() {
+    uploadedFiles = [];
+    updateFileInput();
+    updateFileNameDisplay();
+    updateImagePreview();
+    document.getElementById('watermarkText').value = '';
+    document.getElementById('watermarkDensity').value = '3';
+    document.getElementById('watermarkColor').value = '#e3e3e3';
+    document.getElementById('watermarkSize').value = '20';
+    updateColorPreview();
+    previewContainer.innerHTML = '';
+}
+
+// 添加新的函数来更新文件输入
+function updateFileInput() {
+    const dt = new DataTransfer();
+    uploadedFiles.forEach(file => dt.items.add(file));
+    document.getElementById('imageInput').files = dt.files;
+}
