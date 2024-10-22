@@ -192,37 +192,30 @@ function processImage(file) {
 
             const previewImg = document.createElement('img');
             previewImg.src = canvas.toDataURL();
-            previewImg.style.maxWidth = '100%';
-            previewImg.style.cursor = 'pointer';
+            previewImg.className = 'preview-image';
             previewImg.addEventListener('click', function() {
-                console.log('Image clicked'); // 添加调试日志
                 modalImage.src = this.src;
                 imageModal.classList.remove('hidden');
-                console.log('Modal should be visible now'); // 添加调试日志
             });
             previewItem.appendChild(previewImg);
 
-            // 添加这个新函数来生成格式化的时间戳
-            function getFormattedTimestamp() {
-                const now = new Date();
-                return now.getFullYear() +
-                       String(now.getMonth() + 1).padStart(2, '0') +
-                       String(now.getDate()).padStart(2, '0') +
-                       String(now.getHours()).padStart(2, '0') +
-                       String(now.getMinutes()).padStart(2, '0');
-            }
+            const buttonGroup = document.createElement('div');
+            buttonGroup.className = 'button-group';
 
-            // 修改文件命名逻辑
-            const timestamp = getFormattedTimestamp();
-            const originalFileName = file.name.split('.').slice(0, -1).join('.'); // 获取原始文件名（不包括扩展名）
-            const fileName = `${originalFileName}_${timestamp}.png`;
-            
             const downloadLink = document.createElement('a');
             downloadLink.href = canvas.toDataURL('image/png');
-            downloadLink.download = fileName;
+            downloadLink.download = `watermarked_${file.name}`;
             downloadLink.textContent = translations[currentLang].downloadImage;
-            previewItem.appendChild(downloadLink);
+            downloadLink.className = 'download-button';
+            buttonGroup.appendChild(downloadLink);
 
+            const copyButton = document.createElement('button');
+            copyButton.textContent = translations[currentLang].copyToClipboard;
+            copyButton.className = 'copy-button';
+            copyButton.addEventListener('click', () => copyImageToClipboard(canvas));
+            buttonGroup.appendChild(copyButton);
+
+            previewItem.appendChild(buttonGroup);
             previewContainer.appendChild(previewItem);
         }
         img.src = e.target.result;
@@ -474,3 +467,35 @@ function updateWatermarkDensityOptions(singleWatermark) {
     }
 }
 
+function showToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // 触发重绘
+    toast.offsetHeight;
+
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 300);
+    }, 2000);
+}
+
+async function copyImageToClipboard(canvas) {
+    try {
+        const blob = await new Promise(resolve => canvas.toBlob(resolve));
+        await navigator.clipboard.write([
+            new ClipboardItem({
+                'image/png': blob
+            })
+        ]);
+        showToast(translations[currentLang].imageCopied);
+    } catch (err) {
+        console.error('Failed to copy image: ', err);
+        showToast(translations[currentLang].copyFailed);
+    }
+}

@@ -45,6 +45,9 @@ const translations = {
         fourByFour: '4x4 (16个水印)',
         fiveByFive: '5x5 (25个水印)',
         sixBySix: '6x6 (36个水印)',
+        copyToClipboard: '复制到剪贴板',
+        imageCopied: '图片已复制到剪贴板',
+        copyFailed: '复制失败，请重试',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -90,6 +93,9 @@ const translations = {
         fourByFour: '4x4 (16 watermarks)',
         fiveByFive: '5x5 (25 watermarks)',
         sixBySix: '6x6 (36 watermarks)',
+        copyToClipboard: 'Copy to Clipboard',
+        imageCopied: 'Image copied to clipboard',
+        copyFailed: 'Copy failed, please try again',
     }
 };
 

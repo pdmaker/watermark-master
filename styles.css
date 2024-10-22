@@ -199,3 +199,62 @@ select:disabled {
     color: #999;
     cursor: not-allowed;
 }
+
+/* 修改按钮组样式 */
+.button-group {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.download-button, .copy-button {
+  flex: 1;
+  padding: 0.5rem;
+  text-align: center;
+  color: white;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.download-button {
+  background-color: #3b82f6;
+  border-radius: 0.25rem 0 0 0.25rem;
+}
+
+.copy-button {
+  background-color: #1f2937; /* 黑色背景 */
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.download-button:hover {
+  background-color: #2563eb;
+}
+
+.copy-button:hover {
+  background-color: #111827; /* 深一点的黑色 */
+}
+
+/* 删除复制按钮的左边距 */
+.copy-button {
+  margin-left: 0;
+}
+
+/* 添加 Toast 样式 */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.toast.show {
+  opacity: 1;
+}
