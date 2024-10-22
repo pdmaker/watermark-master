@@ -20,6 +20,7 @@ const resetButton = document.getElementById('resetButton');
 let uploadedFiles = []; // 用于存储已上传的文件
 const downloadAllButton = document.getElementById('downloadAllButton');
 const resultSection = document.getElementById('resultSection');
+const watermarkPosition = document.getElementById('watermarkPosition');
 
 function initializeColorInput() {
     const initialColor = '#e3e3e3';
@@ -72,6 +73,13 @@ function initialize() {
     updateImagePreview();
     handleMobileInteraction();
     window.addEventListener('resize', handleMobileInteraction);
+
+    const watermarkPosition = document.getElementById('watermarkPosition');
+    watermarkPosition.addEventListener('change', toggleWatermarkDensity);
+    
+    // 初始调用一次，以设置初始状态
+    toggleWatermarkDensity();
+    updateWatermarkDensityOptions(false);
 }
 
 // 确保在 DOM 完全加载后执行初始化
@@ -110,7 +118,8 @@ function processImage(file) {
 
             // 添加水印
             const text = watermarkText.value;
-            const density = parseInt(watermarkDensity.value);
+            const position = watermarkPosition.value;
+            const density = position === 'tile' ? parseInt(watermarkDensity.value) : 1;
             const color = watermarkColor.value;
             const size = parseInt(watermarkSize.value);
 
@@ -124,35 +133,57 @@ function processImage(file) {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
-            // 设置旋转角度（逆时针45度）
-            const angle = -Math.PI / 4;
+            if (position === 'tile') {
+                // 整体平铺逻辑（保持原有的平铺逻辑）
+                const angle = -Math.PI / 4;
+                const cellWidth = canvas.width / density;
+                const cellHeight = canvas.height / density;
 
-            // 计算每个格子的大小
-            const cellWidth = canvas.width / density;
-            const cellHeight = canvas.height / density;
+                for (let i = 0; i < density; i++) {
+                    for (let j = 0; j < density; j++) {
+                        const x = (i + 0.5) * cellWidth;
+                        const y = (j + 0.5) * cellHeight;
 
-            // 绘制水印
-            for (let i = 0; i < density; i++) {
-                for (let j = 0; j < density; j++) {
-                    // 计算每个格子的中心点
-                    const x = (i + 0.5) * cellWidth;
-                    const y = (j + 0.5) * cellHeight;
-
-                    // 保存当前上下文状态
-                    ctx.save();
-
-                    // 移动到水印位置（格子中心）
-                    ctx.translate(x, y);
-
-                    // 旋转画布
-                    ctx.rotate(angle);
-
-                    // 绘制旋转后的水印
-                    ctx.fillText(text, 0, 0);
-
-                    // 恢复画布状态
-                    ctx.restore();
+                        ctx.save();
+                        ctx.translate(x, y);
+                        ctx.rotate(angle);
+                        ctx.fillText(text, 0, 0);
+                        ctx.restore();
+                    }
                 }
+            } else {
+                // 角标水印逻辑
+                const padding = 15; // 控制水印边距
+                let x, y;
+
+                switch (position) {
+                    case 'bottomRight':
+                        x = canvas.width - padding;
+                        y = canvas.height - padding;
+                        ctx.textAlign = 'right';
+                        ctx.textBaseline = 'bottom';
+                        break;
+                    case 'bottomLeft':
+                        x = padding;
+                        y = canvas.height - padding;
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'bottom';
+                        break;
+                    case 'topRight':
+                        x = canvas.width - padding;
+                        y = padding;
+                        ctx.textAlign = 'right';
+                        ctx.textBaseline = 'top';
+                        break;
+                    case 'topLeft':
+                        x = padding;
+                        y = padding;
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'top';
+                        break;
+                }
+
+                ctx.fillText(text, x, y);
             }
 
             // 创建预览项
@@ -337,13 +368,19 @@ function resetAll() {
     updateFileNameDisplay();
     updateImagePreview();
     document.getElementById('watermarkText').value = '';
+    document.getElementById('watermarkPosition').value = 'tile'; // 重置水印位置
     document.getElementById('watermarkDensity').value = '3';
+    document.getElementById('watermarkDensity').disabled = false;
     document.getElementById('watermarkColor').value = '#e3e3e3';
     document.getElementById('watermarkSize').value = '20';
     updateColorPreview();
     previewContainer.innerHTML = '';
     // 重置时隐藏结果部分
     resultSection.classList.add('hidden');
+    document.getElementById('watermarkPosition').value = 'tile';
+    document.getElementById('watermarkDensity').disabled = false;
+    updateWatermarkDensityOptions(false);
+    toggleWatermarkDensity();
 }
 
 // 添加新的函数来更新文件输入
@@ -403,3 +440,37 @@ function handleMobileInteraction() {
     resetButton.textContent = translations[currentLang].resetButton;
   }
 }
+
+function toggleWatermarkDensity() {
+    const watermarkPosition = document.getElementById('watermarkPosition');
+    const watermarkDensity = document.getElementById('watermarkDensity');
+    
+    if (watermarkPosition.value === 'tile') {
+        watermarkDensity.disabled = false;
+        watermarkDensity.value = watermarkDensity.getAttribute('data-previous-value') || '3';
+        updateWatermarkDensityOptions(false);
+    } else {
+        watermarkDensity.setAttribute('data-previous-value', watermarkDensity.value);
+        watermarkDensity.value = '1';
+        watermarkDensity.disabled = true;
+        updateWatermarkDensityOptions(true);
+    }
+}
+
+function updateWatermarkDensityOptions(singleWatermark) {
+    const watermarkDensity = document.getElementById('watermarkDensity');
+    const currentLang = document.documentElement.lang;
+    
+    if (singleWatermark) {
+        watermarkDensity.innerHTML = `<option value="1">${translations[currentLang].singleWatermark}</option>`;
+    } else {
+        watermarkDensity.innerHTML = `
+            <option value="2" data-i18n="twoByTwo">${translations[currentLang].twoByTwo}</option>
+            <option value="3" selected data-i18n="threeByThree">${translations[currentLang].threeByThree}</option>
+            <option value="4" data-i18n="fourByFour">${translations[currentLang].fourByFour}</option>
+            <option value="5" data-i18n="fiveByFive">${translations[currentLang].fiveByFive}</option>
+            <option value="6" data-i18n="sixBySix">${translations[currentLang].sixBySix}</option>
+        `;
+    }
+}
+

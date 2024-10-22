@@ -191,3 +191,11 @@ body {
   object-fit: cover;
   border-radius: 0.25rem;
 }
+
+/* 添加到文件末尾 */
+select:disabled {
+    appearance: none;
+    background-color: #f3f3f3;
+    color: #999;
+    cursor: not-allowed;
+}
