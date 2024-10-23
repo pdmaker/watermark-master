@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Allow: /en
+
+Sitemap: https://jiashuiyin.com/sitemap.xml
+
