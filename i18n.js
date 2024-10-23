@@ -6,8 +6,8 @@ const translations = {
         logo: '加水印.com',
         heading: '简易图片加水印，防盗图必备',
         subheading: '快速为多张图片添加自定义水印，一键生成，非常简单易用',
-        copyright: '加水印网 Jiashuiyin.com ',
-        rights: '保留所有权利',
+        copyright: '加水印网 Jiashuiyin.com，',
+        rights: '保留所有权利；',
         friendlyLinks: '友情链接:',
         RefHide: '隐私网址生成器',
         aiTitleGenerator: 'AI论文标题生成器',
@@ -49,6 +49,8 @@ const translations = {
         copyToClipboard: '复制到剪贴板',
         imageCopied: '图片已复制到剪贴板',
         copyFailed: '复制失败，请重试',
+        contactEmail: '联系邮箱：',
+        emailAddress: 'hi@jiashuiyin.com',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -98,6 +100,8 @@ const translations = {
         copyToClipboard: 'Copy to Clipboard',
         imageCopied: 'Image copied to clipboard',
         copyFailed: 'Copy failed, please try again',
+        contactEmail: 'Contact: ',
+        emailAddress: 'hi@jiashuiyin.com',
     }
 };
 

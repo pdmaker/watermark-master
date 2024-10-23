@@ -258,3 +258,15 @@ select:disabled {
 .toast.show {
   opacity: 1;
 }
+
+/* 添加到文件末尾 */
+.email-link {
+  color: #3b82f6;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.email-link:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
