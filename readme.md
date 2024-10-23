@@ -44,7 +44,7 @@
 
 1. 克隆此仓库到本地：
    ```
-   git clone https://github.com/your-username/watermark-master.git
+   git clone https://github.com/pdmaker/watermark-master.git
    ```
 2. 进入项目目录：
    ```
