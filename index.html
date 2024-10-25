@@ -91,7 +91,7 @@
     <div id="pageLoader" class="page-loader">
       <div class="loader"></div>
     </div>
-    <nav class="bg-white shadow-md">
+    <nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
       <div
         class="container mx-auto px-4 py-3 flex justify-between items-center"
       >
@@ -134,6 +134,8 @@
         </div>
       </div>
     </nav>
+    <!-- 添加一个占位 div，防止内容被固定导航栏遮挡 -->
+    <div class="h-16"></div>
     <div class="container mx-auto px-4 py-8 mt-16">
       <div class="max-w-3xl mx-auto">
         <h1 class="text-3xl font-bold mb-2 text-center" data-i18n="heading">
