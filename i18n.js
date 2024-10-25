@@ -138,14 +138,18 @@ const translations = {
 function setLanguage(lang) {
     currentLang = lang; // 更新当前语言
     document.documentElement.lang = lang;
-    document.querySelectorAll('[data-i18n]').forEach(elem => {
-        const key = elem.getAttribute('data-i18n');
-        elem.textContent = translations[lang][key];
-    });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
-        const key = elem.getAttribute('data-i18n-placeholder');
-        elem.placeholder = translations[lang][key];
-    });
+
+    // 仅在非默认语言时替换内容
+    if (lang !== 'zh-CN') {
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            elem.textContent = translations[lang][key];
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n-placeholder');
+            elem.placeholder = translations[lang][key];
+        });
+    }
 }
 
 function updateURL(lang) {
@@ -153,5 +157,6 @@ function updateURL(lang) {
     const newPath = lang === 'en' ? '/en' : '/';
     history.pushState(null, '', baseURL + newPath);
 }
+
 // 导出所需的函数和变量
 export { translations, setLanguage, updateURL, currentLang };
