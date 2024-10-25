@@ -125,12 +125,12 @@ const translations = {
         step5: 'Click "Process Images" button',
         step6: 'Preview results, download or copy to clipboard',
         step7: 'Use "Download All" for batch downloading',
-        quickStep1: 'Upload Images',
-        quickStep1Detail: 'Multi-select or paste',
+        quickStep1: 'Upload',
+        quickStep1Detail: 'Select or paste images',
         quickStep2: 'Add Text',
-        quickStep2Detail: 'Custom watermark text',
+        quickStep2Detail: 'Set watermark text',
         quickStep3: 'Process',
-        quickStep3Detail: 'Batch export with watermark',
+        quickStep3Detail: 'Export with watermark',
         detailedSteps: 'Detailed Steps',
     }
 };
@@ -139,16 +139,20 @@ function setLanguage(lang) {
     currentLang = lang; // 更新当前语言
     document.documentElement.lang = lang;
 
-    // 仅在非默认语言时替换内容
-    if (lang !== 'zh-CN') {
-        document.querySelectorAll('[data-i18n]').forEach(elem => {
-            const key = elem.getAttribute('data-i18n');
-            elem.textContent = translations[lang][key];
-        });
-        document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
-            const key = elem.getAttribute('data-i18n-placeholder');
-            elem.placeholder = translations[lang][key];
-        });
+    // 无论是什么语言都进行内容替换
+    document.querySelectorAll('[data-i18n]').forEach(elem => {
+        const key = elem.getAttribute('data-i18n');
+        elem.textContent = translations[lang][key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
+        const key = elem.getAttribute('data-i18n-placeholder');
+        elem.placeholder = translations[lang][key];
+    });
+
+    // 更新语言选择器的值
+    const languageSelector = document.getElementById('languageSelector');
+    if (languageSelector) {
+        languageSelector.value = lang;
     }
 }
 
@@ -157,6 +161,13 @@ function updateURL(lang) {
     const newPath = lang === 'en' ? '/en' : '/';
     history.pushState(null, '', baseURL + newPath);
 }
+
+// 在页面加载时检查当前URL并设置正确的语言
+document.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
+    const initialLang = path.includes('/en') ? 'en' : 'zh-CN';
+    setLanguage(initialLang);
+});
 
 // 导出所需的函数和变量
 export { translations, setLanguage, updateURL, currentLang };

@@ -270,3 +270,83 @@ select:disabled {
   color: #2563eb;
   text-decoration: underline;
 }
+
+/* 添加新的样式 */
+.step-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  min-width: 0; /* 允许容器在必要时缩小 */
+}
+
+.step-circle {
+  width: 4rem;
+  height: 4rem;
+  background-color: #3b82f6;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.step-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+  min-height: 1.5em;
+}
+
+.step-detail {
+  font-size: 0.875rem;
+  color: #6b7280;
+  line-height: 1.4;
+  min-height: 1.4em;
+}
+
+.step-line {
+  flex: 1;
+  position: relative;
+  max-width: 100px;
+}
+
+.step-line::before {
+  content: '';
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #93c5fd;
+}
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .step-container {
+    padding: 0 0.5rem;
+  }
+  
+  .step-circle {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .step-title {
+    font-size: 1rem;
+    min-height: 1.2em;
+  }
+  
+  .step-detail {
+    font-size: 0.75rem;
+    min-height: 1.2em;
+  }
+  
+  .step-line {
+    max-width: 40px;
+  }
+}
