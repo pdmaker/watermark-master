@@ -50,9 +50,15 @@
    ```
    cd watermark-master
    ```
-3. 使用NodeJs运行本地开发服务器：
+3. 本地开发运行预览
+   
+   方案A：使用 NodeJs 运行本地开发服务器：
    ```
-   node server.js
+   node preview.js
+   ```
+   方案 B：使用 Python 环境运行服务器：
+   ```
+   python3 server.js
    ```
 
 ## 贡献
