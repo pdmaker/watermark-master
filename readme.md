@@ -50,7 +50,10 @@
    ```
    cd watermark-master
    ```
-3. 使用您喜欢的浏览器打开 `index.html` 文件。
+3. 使用NodeJs运行本地开发服务器：
+   ```
+   node server.js
+   ```
 
 ## 贡献
 
