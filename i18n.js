@@ -49,7 +49,7 @@ const translations = {
         copyToClipboard: '复制到剪贴板',
         imageCopied: '图片已复制到剪贴板',
         copyFailed: '复制失败，请重试',
-        contactEmail: '联系邮箱：',
+        contactEmail: '欢迎联系反馈：',
         emailAddress: 'hi@jiashuiyin.com',
         howToUse: '如何高效加水印？',
         step1: '选择或粘贴图片（支持最多20张图片同时处理）',
@@ -67,6 +67,13 @@ const translations = {
         quickStep3Detail: '导出带水印图片',
         detailedSteps: '详细步骤',
         watermarkOpacity: '透明度(%)',
+        qaTitle: '常见问题解答',
+        qa1Title: '为什么选择 Jiashuiyin.com 加水印网站？',
+        qa1Answer: '产品简单易用，批量处理更高效，用户体验优良。完全在本地浏览器运行，无需上传文件到服务器，确保用户隐私安全。支持多种水印样式和位置，满足不同场景需求。',
+        qa2Title: '为什么说「加水印网」可以保护使用者隐私？',
+        qa2Answer: '所有图片处理都在用户本地浏览器中完成，不会上传到任何服务器。源文件和处理后的文件都只存在于用户设备中，确保敏感信息的安全性。同时，网站完全免费，无需注册账号，不收集任何用户信息。',
+        qa3Title: '加水印产品有什么典型的用户场景？',
+        qa3Answer: '主要应用场景包括：1) 私域运营的素材保护，适合电商品牌运营人员和微商从业者；2) 敏感文件保护，如身份证、营业执照等证件的水印添加；3) 摄影作品版权保护；4) 产品图片、宣传材料的品牌标识添加。',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -134,6 +141,13 @@ const translations = {
         quickStep3Detail: 'Export with watermark',
         detailedSteps: 'Detailed Steps',
         watermarkOpacity: 'Opacity(%)',
+        qaTitle: 'FAQ',
+        qa1Title: 'Why choose Jiashuiyin.com?',
+        qa1Answer: 'Simple to use, efficient batch processing, and excellent user experience. All processing is done locally in the browser, ensuring privacy. Supports various watermark styles and positions to meet different needs.',
+        qa2Title: 'How does Jiashuiyin.com protect user privacy?',
+        qa2Answer: 'All image processing is done in your local browser, no files are uploaded to any server. Both source files and processed files remain only on your device, ensuring the security of sensitive information. The website is completely free, no registration required, and we collect no user information.',
+        qa3Title: 'What are the typical use cases?',
+        qa3Answer: '1) Protecting marketing materials for private domain operations, popular among e-commerce brand operators; 2) Protecting sensitive documents like ID cards and business licenses; 3) Copyright protection for photography works; 4) Adding brand identifiers to product images and promotional materials.',
     }
 };
 
