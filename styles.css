@@ -350,3 +350,17 @@ select:disabled {
     max-width: 40px;
   }
 }
+
+.group:hover .opacity-0 {
+    opacity: 1;
+}
+
+.group .absolute {
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* 添加删除按钮的悬停效果 */
+.group button:hover {
+    background-color: #ef4444; /* 红色加深 */
+    transform: scale(1.1);
+}

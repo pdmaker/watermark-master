@@ -342,10 +342,28 @@ function updateImagePreview() {
         if (index < 20) { // 限制最多显示20个预览
             const reader = new FileReader();
             reader.onload = function(e) {
+                const previewWrapper = document.createElement('div');
+                previewWrapper.className = 'relative group';
+                
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.className = 'w-16 h-16 object-cover rounded';
-                imagePreviewArea.appendChild(img);
+                previewWrapper.appendChild(img);
+                
+                // 添加删除按钮
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity';
+                deleteButton.innerHTML = '×';
+                deleteButton.onclick = (e) => {
+                    e.stopPropagation(); // 防止触发上传区域的点击事件
+                    uploadedFiles.splice(index, 1);
+                    updateFileInput();
+                    updateFileNameDisplay();
+                    updateImagePreview();
+                };
+                previewWrapper.appendChild(deleteButton);
+                
+                imagePreviewArea.appendChild(previewWrapper);
             }
             reader.readAsDataURL(file);
         }
