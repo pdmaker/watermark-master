@@ -152,9 +152,14 @@ function processImage(file) {
                         ctx.restore();
                     }
                 }
+            } else if (position === 'center') {
+                // 居中水印
+                const x = canvas.width / 2;
+                const y = canvas.height / 2;
+                ctx.fillText(text, x, y);
             } else {
-                // 角标水印逻辑
-                const padding = 15; // 控制水印边距
+                // 角落水印逻辑
+                const padding = 15;
                 let x, y;
 
                 switch (position) {
@@ -514,3 +519,4 @@ document.getElementById('watermarkOpacity').addEventListener('input', function(e
     }
     e.target.value = value;
 });
+
