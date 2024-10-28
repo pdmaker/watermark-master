@@ -75,6 +75,7 @@ const translations = {
         qa3Title: '加水印产品有什么典型的用户场景？',
         qa3Answer: '主要应用场景包括：1) 私域运营的素材保护，适合电商品牌运营人员和微商从业者；2) 敏感文件保护，如身份证、营业执照等证件的水印添加；3) 摄影作品版权保护；4) 产品图片、宣传材料的品牌标识添加。',
         watermarkPositionCenter: '居中',
+        retirementCountdown: '退休倒计时',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -150,6 +151,7 @@ const translations = {
         qa3Title: 'What are the typical use cases?',
         qa3Answer: '1) Protecting marketing materials for private domain operations, popular among e-commerce brand operators; 2) Protecting sensitive documents like ID cards and business licenses; 3) Copyright protection for photography works; 4) Adding brand identifiers to product images and promotional materials.',
         watermarkPositionCenter: 'Center',
+        retirementCountdown: 'Retirement Countdown',
     }
 };
 
