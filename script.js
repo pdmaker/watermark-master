@@ -23,7 +23,7 @@ const resultSection = document.getElementById('resultSection');
 const watermarkPosition = document.getElementById('watermarkPosition');
 
 function initializeColorInput() {
-    const initialColor = '#e3e3e3';
+    const initialColor = '#787878';
     watermarkColor.value = initialColor;
     colorPicker.value = initialColor;
     colorPreview.style.backgroundColor = initialColor;
@@ -122,13 +122,14 @@ function processImage(file) {
             const density = position === 'tile' ? parseInt(watermarkDensity.value) : 1;
             const color = watermarkColor.value;
             const size = parseInt(watermarkSize.value);
+            const opacity = parseInt(document.getElementById('watermarkOpacity').value) / 100;
 
             if (!/^#[0-9A-Fa-f]{6}$/.test(color)) {
                 alert(translations[currentLang].invalidColorValue);
                 return;
             }
 
-            ctx.fillStyle = color;
+            ctx.fillStyle = `rgba(${parseInt(color.slice(1,3),16)}, ${parseInt(color.slice(3,5),16)}, ${parseInt(color.slice(5,7),16)}, ${opacity})`;
             ctx.font = `${size}px Arial`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -364,7 +365,7 @@ function resetAll() {
     document.getElementById('watermarkPosition').value = 'tile'; // 重置水印位置
     document.getElementById('watermarkDensity').value = '3';
     document.getElementById('watermarkDensity').disabled = false;
-    document.getElementById('watermarkColor').value = '#e3e3e3';
+    document.getElementById('watermarkColor').value = '#787878';
     document.getElementById('watermarkSize').value = '20';
     updateColorPreview();
     previewContainer.innerHTML = '';
@@ -374,6 +375,7 @@ function resetAll() {
     document.getElementById('watermarkDensity').disabled = false;
     updateWatermarkDensityOptions(false);
     toggleWatermarkDensity();
+    document.getElementById('watermarkOpacity').value = '80';
 }
 
 // 添加新的函数来更新文件输入
@@ -499,3 +501,16 @@ async function copyImageToClipboard(canvas) {
         showToast(translations[currentLang].copyFailed);
     }
 }
+
+// 添加透明度输入验证
+document.getElementById('watermarkOpacity').addEventListener('input', function(e) {
+    let value = parseInt(e.target.value);
+    if (isNaN(value)) {
+        value = 80;
+    } else if (value < 0) {
+        value = 0;
+    } else if (value > 100) {
+        value = 100;
+    }
+    e.target.value = value;
+});

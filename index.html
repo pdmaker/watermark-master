@@ -142,7 +142,7 @@
           简易图片加水印，防盗图必备
         </h1>
         <p class="text-l text-gray-600 mb-6 text-center" data-i18n="subheading">
-          快速为多图片添加自定义水印，一键生成，非常简单易用
+          快速为多图片添加自定义水印一键生成，非常简单易用
         </p>
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div class="mb-4">
@@ -186,7 +186,7 @@
             />
           </div>
           <div class="mb-4 flex flex-wrap -mx-2">
-            <div class="w-full sm:w-1/4 px-2 mb-4 sm:mb-0">
+            <div class="w-full sm:w-1/5 px-2 mb-4 sm:mb-0">
               <label
                 class="block text-gray-700 text-sm font-bold mb-2"
                 for="watermarkPosition"
@@ -221,7 +221,7 @@
                 </option>
               </select>
             </div>
-            <div class="w-full sm:w-1/4 px-2 mb-4 sm:mb-0">
+            <div class="w-full sm:w-1/5 px-2 mb-4 sm:mb-0">
               <label
                 class="block text-gray-700 text-sm font-bold mb-2"
                 for="watermarkDensity"
@@ -242,7 +242,7 @@
                 <option value="6" data-i18n="sixBySix">6x6 (36个水印)</option>
               </select>
             </div>
-            <div class="w-full sm:w-1/4 px-2 mb-4 sm:mb-0">
+            <div class="w-full sm:w-1/5 px-2 mb-4 sm:mb-0">
               <label
                 class="block text-gray-700 text-sm font-bold mb-2"
                 for="watermarkColor"
@@ -255,8 +255,8 @@
                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
                   id="watermarkColor"
                   type="text"
-                  value="#e3e3e3"
-                  placeholder="#000000"
+                  value="#787878"
+                  placeholder="#787878"
                 />
                 <div
                   class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
@@ -274,13 +274,13 @@
                 />
               </div>
             </div>
-            <div class="w-full sm:w-1/4 px-2">
+            <div class="w-full sm:w-1/5 px-2 mb-4 sm:mb-0">
               <label
                 class="block text-gray-700 text-sm font-bold mb-2"
                 for="watermarkSize"
                 data-i18n="watermarkSize"
               >
-                水印大小(字号Px)
+                字号(Px)
               </label>
               <div class="relative">
                 <input
@@ -290,6 +290,26 @@
                   min="10"
                   max="100"
                   value="20"
+                  step="1"
+                />
+              </div>
+            </div>
+            <div class="w-full sm:w-1/5 px-2 mb-4 sm:mb-0">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="watermarkOpacity"
+                data-i18n="watermarkOpacity"
+              >
+                透明度(%)
+              </label>
+              <div class="relative">
+                <input
+                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-sm"
+                  id="watermarkOpacity"
+                  type="number"
+                  min="0"
+                  max="100"
+                  value="80"
                   step="1"
                 />
               </div>
@@ -350,7 +370,7 @@
                 <span class="text-white text-2xl font-bold">1</span>
               </div>
               <h3 class="step-title" data-i18n="quickStep1">上传图片</h3>
-              <p class="step-detail" data-i18n="quickStep1Detail">多选或直接粘贴</p>
+              <p class="step-detail" data-i18n="quickStep1Detail">多选或直接粘</p>
             </div>
             <div class="step-line"></div>
             <div class="step-container">

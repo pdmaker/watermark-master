@@ -66,6 +66,7 @@ const translations = {
         quickStep3: '一键处理',
         quickStep3Detail: '导出带水印图片',
         detailedSteps: '详细步骤',
+        watermarkOpacity: '透明度(%)',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -132,6 +133,7 @@ const translations = {
         quickStep3: 'Process',
         quickStep3Detail: 'Export with watermark',
         detailedSteps: 'Detailed Steps',
+        watermarkOpacity: 'Opacity(%)',
     }
 };
 
