@@ -525,16 +525,26 @@ async function copyImageToClipboard(canvas) {
     }
 }
 
-// 添加透明度输入验证
-document.getElementById('watermarkOpacity').addEventListener('input', function(e) {
-    let value = parseInt(e.target.value);
-    if (isNaN(value)) {
-        value = 80;
+// 修改透明度输入验证
+const watermarkOpacity = document.getElementById('watermarkOpacity');
+
+// 在输入时只做基本的字符验证
+watermarkOpacity.addEventListener('input', function(e) {
+    // 移除非数字字符
+    this.value = this.value.replace(/[^\d]/g, '');
+});
+
+// 在失去焦点时进行值的范围验证
+watermarkOpacity.addEventListener('blur', function(e) {
+    let value = parseInt(this.value);
+    
+    if (isNaN(value) || value === '') {
+        value = 80; // 默认值
     } else if (value < 0) {
         value = 0;
     } else if (value > 100) {
         value = 100;
     }
-    e.target.value = value;
+    
+    this.value = value;
 });
-
