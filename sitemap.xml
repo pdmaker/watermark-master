@@ -60,5 +60,17 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://jiashuiyin.com/legal/zh/privacy.html</loc>
+    <lastmod>2024-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://jiashuiyin.com/legal/en/privacy.html</loc>
+    <lastmod>2024-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>
 

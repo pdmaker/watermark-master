@@ -77,6 +77,9 @@ const translations = {
         watermarkPositionCenter: '居中',
         retirementCountdown: '退休倒计时',
         blogLink: '博客',
+        privacyPolicy: '隐私政策',
+        termsConditions: '使用条款',
+        keyboardCounter: '键盘计数器',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -154,6 +157,9 @@ const translations = {
         watermarkPositionCenter: 'Center',
         retirementCountdown: 'Retirement Countdown',
         blogLink: 'Blog',
+        privacyPolicy: 'Privacy Policy',
+        termsConditions: 'Terms & Conditions',
+        keyboardCounter: 'Keyboard Counter',
     }
 };
 
