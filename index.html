@@ -100,7 +100,7 @@
           <!-- 品牌标识 -->
           <a href="/" class="flex items-center cursor-pointer">
             <img src="../images/logo.png" alt="加水印网站Logo" class="h-8 w-8 mr-2" />
-            <span class="text-xl font-bold text-gray-800" data-i18n="logo">加水印.com</span>
+            <span class="text-xl font-bold text-gray-800" data-i18n="logo">加水印</span>
           </a>
           <!-- 主导航链接 -->
           <div class="flex items-center space-x-6">
@@ -132,8 +132,8 @@
               class="appearance-none bg-white border border-gray-300 rounded px-4 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
               aria-label="选择语言"
             >
-              <option value="zh-CN">简体中文</option>
-              <option value="en">English</option>
+              <option value="zh-CN">中文</option>
+              <option value="en">En</option>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
               <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -365,7 +365,7 @@
           </div>
           <div id="previewContainer" class="space-y-4"></div>
         </div>
-        <!-- 在 resultSection 后面，footer 前��添加 How to Use 模块 -->
+        <!-- 在 resultSection 后面，footer 前添加 How to Use 模块 -->
         <div class="mt-16 mb-12 bg-white shadow-md rounded-lg p-8">
           <h2 class="text-2xl font-bold mb-8 text-center" data-i18n="howToUse">
             如何高效加水印？
@@ -459,47 +459,19 @@
         document.getElementById("pageLoader").style.display = "none";
       });
     </script>
+    <!-- Footer -->
     <footer class="mt-8 py-4 bg-gray-100">
       <div class="container mx-auto px-4">
         <p class="text-gray-600 text-center">
-          &copy;2024 <span data-i18n="copyright">加水印网 Jiashuiyin.com </span
-          ><span data-i18n="rights">保留所有权利</span>
-          <span data-i18n="contactEmail">联系邮箱：</span
-          ><a
-            href="mailto:hi@jiashuiyin.com"
-            class="email-link"
-            data-i18n="emailAddress"
-            >hi@jiashuiyin.com</a
-          >
+          &copy;2024 加水印网 Jiashuiyin.com，保留所有权利
+          <span class="mx-2">联系邮箱：</span>
+          <a href="mailto:hi@jiashuiyin.com" class="text-blue-500 hover:text-blue-700">hi@jiashuiyin.com</a>
         </p>
-        <div class="mt-2 flex justify-center items-center space-x-4">
-          <span class="text-gray-600" data-i18n="friendlyLinks"
-            >友情链接:</span
-          >
-          <a
-          href="https://github.com/pdmaker/watermark-master"
-          class="text-blue-500 hover:text-blue-700"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-i18n="githubProject"
-          >GitHub</a
-          >
-          <a
-            href="https://refhide.com/"
-            class="text-blue-500 hover:text-blue-700"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-i18n="RefHide"
-            >隐私链接生成器</a
-          >
-          <a
-            href="https://daojishi.fun"
-            class="text-blue-500 hover:text-blue-700"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-i18n="retirementCountdown"
-            >退休倒计时</a
-          >
+        <div class="mt-2 text-center">
+          <span class="text-gray-600 mr-2">友情链接:</span>
+          <a href="https://github.com/pdmaker/watermark-master" class="text-blue-500 hover:text-blue-700 mr-2" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://refhide.com/" class="text-blue-500 hover:text-blue-700 mr-2" target="_blank" rel="noopener noreferrer">隐私链接生成器</a>
+          <a href="https://daojishi.fun" class="text-blue-500 hover:text-blue-700" target="_blank" rel="noopener noreferrer">退休倒计时</a>
         </div>
       </div>
     </footer>
