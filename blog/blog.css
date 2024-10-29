@@ -1,0 +1,30 @@
+.cta-section {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.cta-link {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.cta-link-weak {
+  background-color: #f3f4f6;
+  color: #3b82f6;
+}
+
+.cta-link-weak:hover {
+  background-color: #e2e8f0;
+}
+
+.cta-link-strong {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.cta-link-strong:hover {
+  background-color: #2563eb;
+} 

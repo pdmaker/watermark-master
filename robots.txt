@@ -1,6 +1,14 @@
 User-agent: *
 Allow: /
 Allow: /en
+Allow: /blog/zh/
+Allow: /blog/en/
+
+# 允许抓取所有博客文章
+Allow: /blog/zh/*.html
+Allow: /blog/en/*.html
+
+# 允许抓取图片资源
+Allow: /blog/images/
 
 Sitemap: https://jiashuiyin.com/sitemap.xml
-

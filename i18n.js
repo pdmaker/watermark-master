@@ -76,6 +76,7 @@ const translations = {
         qa3Answer: '主要应用场景包括：1) 私域运营的素材保护，适合电商品牌运营人员和微商从业者；2) 敏感文件保护，如身份证、营业执照等证件的水印添加；3) 摄影作品版权保护；4) 产品图片、宣传材料的品牌标识添加。',
         watermarkPositionCenter: '居中',
         retirementCountdown: '退休倒计时',
+        blogLink: '博客',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -152,14 +153,15 @@ const translations = {
         qa3Answer: '1) Protecting marketing materials for private domain operations, popular among e-commerce brand operators; 2) Protecting sensitive documents like ID cards and business licenses; 3) Copyright protection for photography works; 4) Adding brand identifiers to product images and promotional materials.',
         watermarkPositionCenter: 'Center',
         retirementCountdown: 'Retirement Countdown',
+        blogLink: 'Blog',
     }
 };
 
 function setLanguage(lang) {
-    currentLang = lang; // 更新当前语言
+    currentLang = lang;
     document.documentElement.lang = lang;
 
-    // 无论是什么语言都进行内容替换
+    // 更新所有翻译内容
     document.querySelectorAll('[data-i18n]').forEach(elem => {
         const key = elem.getAttribute('data-i18n');
         elem.textContent = translations[lang][key];
@@ -168,6 +170,13 @@ function setLanguage(lang) {
         const key = elem.getAttribute('data-i18n-placeholder');
         elem.placeholder = translations[lang][key];
     });
+
+    // 更新博客链接
+    const blogLink = document.getElementById('blogLink');
+    if (blogLink) {
+        // 根据当前语言设置博客链接
+        blogLink.href = lang === 'en' ? '/blog/en/index.html' : '/blog/zh/index.html';
+    }
 
     // 更新语言选择器的值
     const languageSelector = document.getElementById('languageSelector');
