@@ -3,7 +3,7 @@ let currentLang = 'zh-CN'; // 默认语言
 const translations = {
     'zh-CN': {
         title: '简易图片加水印，防盗图称心如意',
-        logo: '加水印',
+        logo: '加水印.com',
         heading: '简易图片加水印，防盗图必备',
         subheading: '快速为多张图片添加自定义水印，一键生成，非常简单易用',
         copyright: '加水印网 Jiashuiyin.com，',
@@ -80,6 +80,7 @@ const translations = {
         privacyPolicy: '隐私政策',
         termsConditions: '使用条款',
         keyboardCounter: '键盘计数器',
+        logoShort: '加水印',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -160,6 +161,7 @@ const translations = {
         privacyPolicy: 'Privacy Policy',
         termsConditions: 'Terms & Conditions',
         keyboardCounter: 'Keyboard Counter',
+        logoShort: 'WM Adder',
     }
 };
 

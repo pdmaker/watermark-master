@@ -364,3 +364,33 @@ select:disabled {
     background-color: #ef4444; /* 红色加深 */
     transform: scale(1.1);
 }
+
+/* 添加以下响应式样式 */
+@media (max-width: 640px) {
+  .brand-name-full {
+    display: none;
+  }
+  
+  .brand-name-short {
+    display: block;
+  }
+  
+  .nav-container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .nav-space {
+    gap: 0.5rem;
+  }
+}
+
+@media (min-width: 641px) {
+  .brand-name-full {
+    display: block;
+  }
+  
+  .brand-name-short {
+    display: none;
+  }
+}

@@ -96,11 +96,18 @@
     <nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
       <div class="container mx-auto px-4 py-3 flex justify-between items-center">
         <!-- 左侧区域：品牌标识和主导航 -->
-        <div class="flex items-center space-x-8">
+        <div class="flex items-center space-x-8 nav-container">
           <!-- 品牌标识 -->
           <a href="/" class="flex items-center cursor-pointer">
-            <img src="../images/logo.png" alt="加水印网站Logo" class="h-8 w-8 mr-2" />
-            <span class="text-xl font-bold text-gray-800" data-i18n="logo">加水印</span>
+            <img src="../images/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
+            <!-- 完整品牌名 -->
+            <span class="text-xl font-bold text-gray-800 brand-name-full" data-i18n="logo">
+              Watermark Adder
+            </span>
+            <!-- 简短品牌名 -->
+            <span class="text-xl font-bold text-gray-800 brand-name-short" data-i18n="logoShort">
+              WM Adder
+            </span>
           </a>
           <!-- 主导航链接 -->
           <div class="flex items-center space-x-6">
