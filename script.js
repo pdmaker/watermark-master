@@ -23,7 +23,7 @@ const resultSection = document.getElementById('resultSection');
 const watermarkPosition = document.getElementById('watermarkPosition');
 
 function initializeColorInput() {
-    const initialColor = '#c7c7c7';
+    const initialColor = '#dedede';
     watermarkColor.value = initialColor;
     colorPicker.value = initialColor;
     colorPreview.style.backgroundColor = initialColor;
@@ -388,7 +388,7 @@ function resetAll() {
     document.getElementById('watermarkPosition').value = 'tile'; // 重置水印位置
     document.getElementById('watermarkDensity').value = '3';
     document.getElementById('watermarkDensity').disabled = false;
-    document.getElementById('watermarkColor').value = '#c7c7c7';
+    document.getElementById('watermarkColor').value = '#dedede';
     document.getElementById('watermarkSize').value = '20';
     updateColorPreview();
     previewContainer.innerHTML = '';
