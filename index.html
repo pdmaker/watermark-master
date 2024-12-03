@@ -27,6 +27,8 @@
       property="og:image"
       content="https://jiashuiyin.com/images/logo.jpg"
     />
+    <link rel="preload" href="styles.css" as="style" />
+    <link rel="preload" href="/images/logo.png" as="image" />
     <link rel="stylesheet" href="styles.css" />
     <link
       rel="icon"
@@ -73,25 +75,28 @@
     ></script>
     <meta name="robots" content="index, follow" />
     <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-4WH6LLGNFX"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WH6LLGNFX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
-      gtag("config", "G-4WH6LLGNFX");
+      gtag("config", "G-4WH6LLGNFX", {
+        'send_page_view': false  // 延迟发送页面浏览
+      });
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4562467673017981"
-    crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4562467673017981"></script>
   </head>
   <body class="bg-gray-100 font-sans">
     <div id="pageLoader" class="page-loader">
-      <div class="loader"></div>
+      <div class="loader-container">
+        <div class="loader"></div>
+        <div class="loader-progress">
+          <div class="progress-bar"></div>
+        </div>
+        <div class="loader-text" data-i18n="loading">加载中...</div>
+      </div>
     </div>
     <nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
       <div class="container mx-auto px-4 py-3 flex justify-between items-center">
@@ -182,10 +187,13 @@
               id="pasteArea"
               class="mt-2 border-2 border-dashed border-blue-500 rounded-lg p-6 text-center cursor-pointer hover:bg-blue-50 transition-colors duration-300"
             >
-              <span data-i18n="pasteAreaText">点击上传或直接粘贴图</span>
+              <span data-i18n="pasteAreaText">点击上传或直接粘贴图片</span>
             </div>
-            <!-- 在粘贴区域下方添加览区域 -->
-            <div id="imagePreviewArea" class="mt-2 flex flex-wrap gap-2"></div>
+            <!-- 添加固定高度的状态容器 -->
+            <div class="file-status-container">
+              <span data-i18n="noFileChosen">未选择图片</span>
+            </div>
+            <div id="imagePreviewArea"></div>
           </div>
           <div class="mb-4">
             <label
@@ -462,8 +470,19 @@
     <script src="i18n.js" type="module"></script>
     <script src="script.js" type="module"></script>
     <script>
+      // 简化加载处理
+      document.addEventListener("DOMContentLoaded", function() {
+        // 移除进度条相关代码，保持简单的加载提示
+        const loadingText = document.querySelector(".loader-text");
+        loadingText.textContent = "页面加载中...";
+      });
+
       window.addEventListener("load", function () {
-        document.getElementById("pageLoader").style.display = "none";
+        const pageLoader = document.getElementById("pageLoader");
+        pageLoader.style.opacity = "0";
+        setTimeout(() => {
+          pageLoader.style.display = "none";
+        }, 300);
       });
     </script>
     <!-- Footer -->

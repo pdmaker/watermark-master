@@ -263,14 +263,8 @@ console.log('modalImage element:', modalImage);
 function initializeFileInput() {
     const fileInput = document.getElementById('imageInput');
     const pasteArea = document.getElementById('pasteArea');
-    const fileNameDisplay = document.createElement('span');
-
-    fileNameDisplay.className = 'mt-2 text-gray-600 block';
-    fileNameDisplay.setAttribute('data-i18n', 'noFileChosen');
-    fileNameDisplay.textContent = translations[currentLang].noFileChosen;
-
-    pasteArea.parentNode.insertBefore(fileNameDisplay, pasteArea.nextSibling);
-
+    
+    // 移除动态创建文本显示的代码，因为已经在HTML中静态定义了
     fileInput.addEventListener('change', handleFileSelect);
 }
 
@@ -321,7 +315,7 @@ function handlePaste(e) {
 
 // 修改 updateFileNameDisplay 函数
 function updateFileNameDisplay() {
-    const fileNameDisplay = document.querySelector('span[data-i18n="noFileChosen"]');
+    const fileNameDisplay = document.querySelector('.file-status-container span[data-i18n="noFileChosen"]');
     
     if (uploadedFiles.length > 0) {
         const fileCount = uploadedFiles.length;
