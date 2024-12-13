@@ -174,17 +174,24 @@ function setLanguage(lang) {
     // 更新所有翻译内容
     document.querySelectorAll('[data-i18n]').forEach(elem => {
         const key = elem.getAttribute('data-i18n');
-        elem.textContent = translations[lang][key];
+        if (translations[lang][key]) {
+            elem.textContent = translations[lang][key];
+        }
     });
+
     document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
         const key = elem.getAttribute('data-i18n-placeholder');
-        elem.placeholder = translations[lang][key];
+        if (translations[lang][key]) {
+            elem.placeholder = translations[lang][key];
+        }
     });
+
+    // 更新元数据
+    updateMetadata(lang);
 
     // 更新博客链接
     const blogLink = document.getElementById('blogLink');
     if (blogLink) {
-        // 根据当前语言设置博客链接
         blogLink.href = lang === 'en' ? '/blog/en/index.html' : '/blog/zh/index.html';
     }
 
@@ -195,18 +202,77 @@ function setLanguage(lang) {
     }
 }
 
+// 添加更新元数据的函数
+function updateMetadata(lang) {
+    // 更新标题
+    document.title = translations[lang].title + (lang === 'en' ? ' - Watermark Adder' : ' - 加水印');
+
+    // 更新 meta 描述
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+        metaDescription.content = lang === 'en' 
+            ? 'Watermark Adder is a simple online tool for adding watermarks to images. Support batch processing, custom watermark text, position, color, and size. Protect your images from unauthorized use. Free, no registration required.'
+            : '加水印.com 是一款简单易用的在线图片加水印工具。支持批量处理、自定义水印文字、位置、颜色和大小。保护您的图片，防止盗用。完全免费，无需注册。';
+    }
+
+    // 更新 Open Graph 标签
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+
+    if (ogTitle) {
+        ogTitle.content = document.title;
+    }
+    if (ogDescription) {
+        ogDescription.content = metaDescription?.content;
+    }
+    if (ogUrl) {
+        ogUrl.content = window.location.origin + (lang === 'en' ? '/en' : '/');
+    }
+
+    // 更新规范链接
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+        canonical.href = window.location.origin + (lang === 'en' ? '/en' : '/');
+    }
+}
+
 function updateURL(lang) {
     const baseURL = window.location.origin;
     const newPath = lang === 'en' ? '/en' : '/';
-    history.pushState(null, '', baseURL + newPath);
+    window.history.replaceState(null, '', baseURL + newPath);
 }
 
-// 在页面加载时检查当前URL并设置正确的语言
-document.addEventListener('DOMContentLoaded', () => {
+// 修改初始化函数
+function initializeLanguage() {
+    // 优先检查 URL 路径
     const path = window.location.pathname;
-    const initialLang = path.includes('/en') ? 'en' : 'zh-CN';
-    setLanguage(initialLang);
-});
+    const urlLang = path.startsWith('/en') ? 'en' : 'zh-CN';
+    
+    // 设置语言并更新 UI
+    setLanguage(urlLang);
+    
+    // 确保 URL 与当前语言匹配
+    const currentPath = window.location.pathname;
+    const expectedPath = urlLang === 'en' ? '/en' : '/';
+    
+    if (currentPath !== expectedPath && currentPath !== expectedPath + '/') {
+        const newURL = window.location.origin + expectedPath;
+        window.history.replaceState(null, '', newURL);
+    }
+
+    // 发送正确的页面浏览事件到 Google Analytics
+    if (typeof gtag === 'function') {
+        gtag('event', 'page_view', {
+            page_title: document.title,
+            page_location: window.location.href,
+            page_path: window.location.pathname
+        });
+    }
+}
+
+// 在 DOMContentLoaded 时初始化语言
+document.addEventListener('DOMContentLoaded', initializeLanguage);
 
 // 导出所需的函数和变量
 export { translations, setLanguage, updateURL, currentLang };
