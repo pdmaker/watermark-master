@@ -30,60 +30,87 @@ function initializeColorInput() {
 }
 
 // 将所有初始化和事件监听器的设置放个函数中
-function initialize() {
-    initializeColorInput();
-    initializeFileInput();
-    processButton.addEventListener('click', processImages);
-    watermarkColor.addEventListener('input', updateColorPreview);
-    colorPreview.addEventListener('click', () => colorPicker.click());
-    colorPicker.addEventListener('input', () => {
-        watermarkColor.value = colorPicker.value;
-        updateColorPreview();
-    });
-    imageModal.addEventListener('click', function() {
-        console.log('Modal clicked');
-        this.classList.add('hidden');
-    });
+async function initialize() {
+    try {
+        // 等待所有模块加载完成
+        await Promise.all([
+            import('https://jspm.dev/jszip'),
+            import('https://jspm.dev/file-saver')
+        ]);
 
-    console.log('imageModal element:', imageModal);
-    console.log('modalImage element:', modalImage);
+        initializeColorInput();
+        initializeFileInput();
+        processButton.addEventListener('click', processImages);
+        watermarkColor.addEventListener('input', updateColorPreview);
+        colorPreview.addEventListener('click', () => colorPicker.click());
+        colorPicker.addEventListener('input', () => {
+            watermarkColor.value = colorPicker.value;
+            updateColorPreview();
+        });
+        imageModal.addEventListener('click', function() {
+            console.log('Modal clicked');
+            this.classList.add('hidden');
+        });
 
-    languageSelector.addEventListener('change', (e) => {
-        const lang = e.target.value;
+        languageSelector.addEventListener('change', (e) => {
+            const lang = e.target.value;
+            setLanguage(lang);
+            updateURL(lang);
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const lang = urlParams.get('lang') || (window.location.pathname.includes('/en') ? 'en' : 'zh-CN');
         setLanguage(lang);
-        updateURL(lang);
-    });
+        languageSelector.value = lang;
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const lang = urlParams.get('lang') || (window.location.pathname.includes('/en') ? 'en' : 'zh-CN');
-    setLanguage(lang);
-    languageSelector.value = lang;
+        // 修改这部分代码
+        const pasteArea = document.getElementById('pasteArea');
+        const imageInput = document.getElementById('imageInput');
+        pasteArea.addEventListener('click', () => imageInput.click());
+        pasteArea.addEventListener('paste', handlePaste);
+        document.addEventListener('paste', handlePaste);
+        imageInput.addEventListener('change', handleFileSelect);
 
-    // 修改这部分代码
-    const pasteArea = document.getElementById('pasteArea');
-    const imageInput = document.getElementById('imageInput');
-    pasteArea.addEventListener('click', () => imageInput.click());
-    pasteArea.addEventListener('paste', handlePaste);
-    document.addEventListener('paste', handlePaste);
-    imageInput.addEventListener('change', handleFileSelect);
+        resetButton.addEventListener('click', resetAll);
+        downloadAllButton.addEventListener('click', downloadAllImages);
 
-    resetButton.addEventListener('click', resetAll);
-    downloadAllButton.addEventListener('click', downloadAllImages);
+        updateImagePreview();
+        handleMobileInteraction();
+        window.addEventListener('resize', handleMobileInteraction);
 
-    updateImagePreview();
-    handleMobileInteraction();
-    window.addEventListener('resize', handleMobileInteraction);
+        const watermarkPosition = document.getElementById('watermarkPosition');
+        watermarkPosition.addEventListener('change', toggleWatermarkDensity);
+        
+        // 初始调用一次，以设置初始状态
+        toggleWatermarkDensity();
+        updateWatermarkDensityOptions(false);
 
-    const watermarkPosition = document.getElementById('watermarkPosition');
-    watermarkPosition.addEventListener('change', toggleWatermarkDensity);
-    
-    // 初始调用一次，以设置初始状态
-    toggleWatermarkDensity();
-    updateWatermarkDensityOptions(false);
+        // 移除页面加载器
+        const pageLoader = document.getElementById('pageLoader');
+        if (pageLoader) {
+            pageLoader.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Initialization error:', error);
+        // 确保即使出错也移除loading状态
+        const pageLoader = document.getElementById('pageLoader');
+        if (pageLoader) {
+            pageLoader.style.display = 'none';
+        }
+    }
 }
 
 // 确保在 DOM 完全加载后执行初始化
-document.addEventListener('DOMContentLoaded', initialize);
+document.addEventListener('DOMContentLoaded', () => {
+    initialize().catch(error => {
+        console.error('Failed to initialize:', error);
+        // 确保即使出错也移除loading状态
+        const pageLoader = document.getElementById('pageLoader');
+        if (pageLoader) {
+            pageLoader.style.display = 'none';
+        }
+    });
+});
 
 function processImages() {
     console.log('Processing images...');

@@ -6,7 +6,7 @@ const translations = {
         logo: '加水印.com',
         heading: '简易图片加水印，防盗图必备',
         subheading: '快速为多张图片添加自定义水印，一键生成，非常简单易用',
-        copyright: '加水印网 Jiashuiyin.com，',
+        copyright: '加水印网 Jiashuiyin.com',
         rights: '保留所有权利；',
         friendlyLinks: '友情链接:',
         RefHide: '隐私网址生成器',
@@ -69,9 +69,9 @@ const translations = {
         detailedSteps: '详细步骤',
         watermarkOpacity: '透明度(%)',
         qaTitle: '常见问题解答',
-        qa1Title: '为什么选择 Jiashuiyin.com 加水印网站？',
+        qa1Title: '为什么选择「加水印」网站？',
         qa1Answer: '产品简单易用，批量处理更高效，用户体验优良。完全在本地浏览器运行，无需上传文件到服务器，确保用户隐私安全。支持多种水印样式和位置，满足不同场景需求。',
-        qa2Title: '为什么说「加水印网」可以保护使用者隐私？',
+        qa2Title: '为什么说「加水印」网站可以保护使用者隐私？',
         qa2Answer: '所有图片处理都在用户本地浏览器中完成，不会上传到任何服务器。源文件和处理后的文件都只存在于用户设备中，确保敏感信息的安全性。同时，网站完全免费，无需注册账号，不收集任何用户信息。',
         qa3Title: '加水印产品有什么典型的用户场景？',
         qa3Answer: '主要应用场景包括：1) 私域运营的素材保护，适合电商品牌运营人员和微商从业者；2) 敏感文件保护，如身份证、营业执照等证件的水印添加；3) 摄影作品版权保护；4) 产品图片、宣传材料的品牌标识添加。',
@@ -171,34 +171,56 @@ function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
 
-    // 更新所有翻译内容
-    document.querySelectorAll('[data-i18n]').forEach(elem => {
-        const key = elem.getAttribute('data-i18n');
-        if (translations[lang][key]) {
-            elem.textContent = translations[lang][key];
-        }
-    });
-
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
-        const key = elem.getAttribute('data-i18n-placeholder');
-        if (translations[lang][key]) {
-            elem.placeholder = translations[lang][key];
-        }
-    });
-
-    // 更新元数据
-    updateMetadata(lang);
-
-    // 更新博客链接
-    const blogLink = document.getElementById('blogLink');
-    if (blogLink) {
-        blogLink.href = lang === 'en' ? '/blog/en/index.html' : '/blog/zh/index.html';
+    // 如果当前语言与页面不匹配，直接跳转
+    const currentPath = window.location.pathname;
+    const shouldBeInEn = lang === 'en';
+    const isInEn = currentPath.startsWith('/en');
+    
+    if (shouldBeInEn !== isInEn) {
+        // 需要切换页面
+        const baseURL = window.location.origin;
+        const newPath = shouldBeInEn ? '/en' : '/';
+        window.location.href = baseURL + newPath;
+        return;
     }
 
-    // 更新语言选择器的值
-    const languageSelector = document.getElementById('languageSelector');
-    if (languageSelector) {
-        languageSelector.value = lang;
+    // 如果语言匹配当前页面，则更新内容
+    try {
+        document.querySelectorAll('[data-i18n]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n');
+            if (translations[lang][key]) {
+                elem.textContent = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(elem => {
+            const key = elem.getAttribute('data-i18n-placeholder');
+            if (translations[lang][key]) {
+                elem.placeholder = translations[lang][key];
+            }
+        });
+
+        // 更新元数据
+        updateMetadata(lang);
+
+        // 更新语言选择器的值
+        const languageSelector = document.getElementById('languageSelector');
+        if (languageSelector) {
+            languageSelector.value = lang;
+        }
+
+        // 移除loading状态
+        const pageLoader = document.getElementById('pageLoader');
+        if (pageLoader) {
+            pageLoader.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error updating language:', error);
+        // 确保即使出错也移除loading状态
+        const pageLoader = document.getElementById('pageLoader');
+        if (pageLoader) {
+            pageLoader.style.display = 'none';
+        }
     }
 }
 
@@ -245,30 +267,25 @@ function updateURL(lang) {
 
 // 修改初始化函数
 function initializeLanguage() {
-    // 优先检查 URL 路径
+    // 根据当前路径确定语言
     const path = window.location.pathname;
     const urlLang = path.startsWith('/en') ? 'en' : 'zh-CN';
     
-    // 设置语言并更新 UI
-    setLanguage(urlLang);
+    // 设置初始语言
+    currentLang = urlLang;
+    document.documentElement.lang = urlLang;
     
-    // 确保 URL 与当前语言匹配
-    const currentPath = window.location.pathname;
-    const expectedPath = urlLang === 'en' ? '/en' : '/';
-    
-    if (currentPath !== expectedPath && currentPath !== expectedPath + '/') {
-        const newURL = window.location.origin + expectedPath;
-        window.history.replaceState(null, '', newURL);
+    // 设置语言选择器
+    const languageSelector = document.getElementById('languageSelector');
+    if (languageSelector) {
+        languageSelector.value = urlLang;
     }
 
-    // 发送正确的页面浏览事件到 Google Analytics
-    if (typeof gtag === 'function') {
-        gtag('event', 'page_view', {
-            page_title: document.title,
-            page_location: window.location.href,
-            page_path: window.location.pathname
-        });
-    }
+    // 添加语言切换事件监听
+    languageSelector?.addEventListener('change', (e) => {
+        const newLang = e.target.value;
+        setLanguage(newLang);
+    });
 }
 
 // 在 DOMContentLoaded 时初始化语言
