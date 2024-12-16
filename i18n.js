@@ -8,7 +8,7 @@ const translations = {
         subheading: '快速为多张图片添加自定义水印，一键生成，非常简单易用',
         copyright: '加水印网 Jiashuiyin.com',
         rights: '保留所有权利；',
-        friendlyLinks: '友情链接:',
+        friendlyLinks: '友情链接',
         RefHide: '隐私网址生成器',
         aiTitleGenerator: 'AI论文标题生成器',
         iframeGenerator: '网页iframe生成器',
@@ -82,6 +82,7 @@ const translations = {
         termsConditions: '使用条款',
         keyboardCounter: '键盘计数器',
         logoShort: '加水印',
+        openUrlsBatch: '批量打开网页',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -164,6 +165,7 @@ const translations = {
         termsConditions: 'Terms & Conditions',
         keyboardCounter: 'Keyboard Counter',
         logoShort: 'WM Adder',
+        openUrlsBatch: 'Batch Open URLs',
     }
 };
 
