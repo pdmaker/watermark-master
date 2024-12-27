@@ -201,13 +201,15 @@
             >
               Text
             </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            <textarea
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline resize-none transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-sm"
               id="watermarkText"
-              type="text"
+              rows="1"
+              maxlength="100"
               data-i18n-placeholder="inputWatermarkText"
               placeholder="Enter watermark text"
-            />
+              style="min-height: 38px;"
+            ></textarea>
           </div>
           <div class="mb-4 flex flex-wrap -mx-2">
             <div class="w-full sm:w-1/5 px-2 mb-4 sm:mb-0">

@@ -19,7 +19,7 @@ const translations = {
         watermarkColor: '颜色',
         watermarkSize: '字号(Px)',
         processImages: '处理图片',
-        inputWatermarkText: '输入水印文字',
+        inputWatermarkText: '输入水印文字，可回车换行',
         chooseFile: '选择图片',
         noFileChosen: '未选择图片',
         downloadImage: '下载图片',
@@ -83,6 +83,7 @@ const translations = {
         keyboardCounter: '键盘计数器',
         logoShort: '加水印',
         openUrlsBatch: '批量打开网页',
+        maxLinesReached: '最多只能输入3行文本',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -102,7 +103,7 @@ const translations = {
         watermarkColor: 'Color',
         watermarkSize: 'Font Size (Px)',
         processImages: 'Process Images',
-        inputWatermarkText: 'Enter watermark text',
+        inputWatermarkText: 'Enter watermark text, press Enter for new line',
         chooseFile: 'Choose File',
         noFileChosen: 'No image chosen',
         downloadImage: 'Download Image',
@@ -166,6 +167,7 @@ const translations = {
         keyboardCounter: 'Keyboard Counter',
         logoShort: 'WM Adder',
         openUrlsBatch: 'Batch Open URLs',
+        maxLinesReached: 'Maximum 3 lines allowed',
     }
 };
 
@@ -236,7 +238,7 @@ function updateMetadata(lang) {
     if (metaDescription) {
         metaDescription.content = lang === 'en' 
             ? 'Watermark Adder is a simple online tool for adding watermarks to images. Support batch processing, custom watermark text, position, color, and size. Protect your images from unauthorized use. Free, no registration required.'
-            : '加水印.com 是一款简单易用的在线图片加水印工具。支持批量处理、自定义水印文字、位置、颜色和大小。保护您的图片，防止盗用。完全免费，无需注册。';
+            : '加水印.com 是一款简单易用的在线图片加水印工具。支持批量处理、自定义水印文字、位置、颜色和大小。保护您的图片，防止盗图。完全免费，无需注册。';
     }
 
     // 更新 Open Graph 标签

@@ -85,6 +85,58 @@ async function initialize() {
         toggleWatermarkDensity();
         updateWatermarkDensityOptions(false);
 
+        // 添加水印文本输入框的事件监听
+        const watermarkTextArea = document.getElementById('watermarkText');
+        
+        // 添加自动调整高度的函数
+        function adjustTextareaHeight(textarea) {
+            const baseHeight = 38; // 基础高度（单行）
+            const lineHeight = 22; // 行高与select框一致
+            const paddingY = 8; // 上下内边距与select框一致
+            const lines = textarea.value.split('\n').length;
+            
+            // 计算新高度：基础行高 * 行数 + 上下内边距
+            const newHeight = (lineHeight * lines) + (paddingY * 2);
+            textarea.style.height = `${newHeight}px`;
+        }
+
+        watermarkTextArea.addEventListener('input', function() {
+            const lines = this.value.split('\n');
+            if (lines.length > 3) {
+                // 如果超过3行，只保留前3行
+                this.value = lines.slice(0, 3).join('\n');
+            }
+            adjustTextareaHeight(this);
+        });
+
+        watermarkTextArea.addEventListener('keydown', function(e) {
+            const lines = this.value.split('\n');
+            
+            // 如果已经有3行且按下回车，则阻止默认行为
+            if (lines.length >= 3 && e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                // 显示提示信息
+                alert(translations[currentLang].maxLinesReached || 'Maximum 3 lines allowed');
+                return;
+            }
+        });
+
+        // 处理粘贴事件
+        watermarkTextArea.addEventListener('paste', function(e) {
+            const pastedText = e.clipboardData.getData('text');
+            const lines = pastedText.split('\n');
+            const currentLines = this.value.split('\n');
+            const totalLines = currentLines.length + lines.length - 1;
+
+            // 如果粘贴后会超过3行，阻止默认行为
+            if (totalLines > 3) {
+                e.preventDefault();
+                alert(translations[currentLang].maxLinesReached || 'Maximum 3 lines allowed');
+            }
+            // 在下一个事件循环中调整高度，确保内容已更新
+            setTimeout(() => adjustTextareaHeight(this), 0);
+        });
+
         // 移除页面加载器
         const pageLoader = document.getElementById('pageLoader');
         if (pageLoader) {
@@ -161,8 +213,12 @@ function processImage(file) {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
 
+            // 将文本分割成多行
+            const lines = text.split('\n');
+            const lineHeight = size * 1.2; // 行高为字体大小的1.2倍
+
             if (position === 'tile') {
-                // 整体平铺逻辑（保持原有的平铺逻辑）
+                // 整体平铺逻辑
                 const angle = -Math.PI / 4;
                 const cellWidth = canvas.width / density;
                 const cellHeight = canvas.height / density;
@@ -175,7 +231,21 @@ function processImage(file) {
                         ctx.save();
                         ctx.translate(x, y);
                         ctx.rotate(angle);
-                        ctx.fillText(text, 0, 0);
+                        
+                        // 绘制文本，根据换行符分割
+                        const lines = text.split('\n');
+                        if (lines.length === 1) {
+                            // 单行文本直接居中显示
+                            ctx.fillText(text, 0, 0);
+                        } else {
+                            // 多行文本需要计算行高
+                            const lineHeight = size * 1.2;
+                            lines.forEach((line, index) => {
+                                const yOffset = (index - (lines.length - 1) / 2) * lineHeight;
+                                ctx.fillText(line, 0, yOffset);
+                            });
+                        }
+                        
                         ctx.restore();
                     }
                 }
@@ -183,7 +253,20 @@ function processImage(file) {
                 // 居中水印
                 const x = canvas.width / 2;
                 const y = canvas.height / 2;
-                ctx.fillText(text, x, y);
+                
+                // 绘制文本，根据换行符分割
+                const lines = text.split('\n');
+                if (lines.length === 1) {
+                    // 单行文本直接居中显示
+                    ctx.fillText(text, x, y);
+                } else {
+                    // 多行文本需要计算行高
+                    const lineHeight = size * 1.2;
+                    lines.forEach((line, index) => {
+                        const yOffset = (index - (lines.length - 1) / 2) * lineHeight;
+                        ctx.fillText(line, x, y + yOffset);
+                    });
+                }
             } else {
                 // 角落水印逻辑
                 const padding = 15;
@@ -216,7 +299,24 @@ function processImage(file) {
                         break;
                 }
 
-                ctx.fillText(text, x, y);
+                // 绘制文本，根据换行符分割
+                const lines = text.split('\n');
+                if (lines.length === 1) {
+                    // 单行文本直接显示
+                    ctx.fillText(text, x, y);
+                } else {
+                    // 多行文本需要计算行高和位置
+                    const lineHeight = size * 1.2;
+                    if (position.startsWith('bottom')) {
+                        lines.reverse().forEach((line, index) => {
+                            ctx.fillText(line, x, y - index * lineHeight);
+                        });
+                    } else {
+                        lines.forEach((line, index) => {
+                            ctx.fillText(line, x, y + index * lineHeight);
+                        });
+                    }
+                }
             }
 
             // 创建预览项
@@ -422,14 +522,12 @@ function resetAll() {
     document.getElementById('watermarkOpacity').value = '80';
 }
 
-// 添加新的函数来更新文件输入
 function updateFileInput() {
     const dt = new DataTransfer();
     uploadedFiles.forEach(file => dt.items.add(file));
     document.getElementById('imageInput').files = dt.files;
 }
 
-// 添加新的函数来处理一键下载
 async function downloadAllImages() {
     if (previewContainer.children.length === 0) {
         alert(translations[currentLang].noImagesToDownload);
