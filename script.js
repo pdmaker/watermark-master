@@ -90,14 +90,17 @@ async function initialize() {
         
         // 添加自动调整高度的函数
         function adjustTextareaHeight(textarea) {
-            const baseHeight = 38; // 基础高度（单行）
-            const lineHeight = 22; // 行高与select框一致
-            const paddingY = 8; // 上下内边距与select框一致
+            const paddingY = 8; // 上下内边距（与 py-2 对应）
+            const baseHeight = 38; // 单行时的总高度
             const lines = textarea.value.split('\n').length;
             
-            // 计算新高度：基础行高 * 行数 + 上下内边距
-            const newHeight = (lineHeight * lines) + (paddingY * 2);
-            textarea.style.height = `${newHeight}px`;
+            if (lines === 1) {
+                textarea.style.height = `${baseHeight}px`;
+            } else {
+                // 多行时，每增加一行增加 22px
+                const additionalHeight = (lines - 1) * 22;
+                textarea.style.height = `${baseHeight + additionalHeight}px`;
+            }
         }
 
         watermarkTextArea.addEventListener('input', function() {
@@ -404,7 +407,7 @@ processButton.addEventListener('click', async () => {
         // 这里是您处理图片的代码
         // await processImages();
     } catch (error) {
-        console.error('处理图片时出错:', error);
+        console.error('处���图片时出错:', error);
     } finally {
         // 隐藏处理中的 loader
         processingLoader.style.display = 'none';
