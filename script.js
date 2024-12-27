@@ -40,7 +40,6 @@ async function initialize() {
 
         initializeColorInput();
         initializeFileInput();
-        processButton.addEventListener('click', processImages);
         watermarkColor.addEventListener('input', updateColorPreview);
         colorPreview.addEventListener('click', () => colorPicker.click());
         colorPicker.addEventListener('input', () => {
@@ -145,6 +144,47 @@ async function initialize() {
         if (pageLoader) {
             pageLoader.style.display = 'none';
         }
+
+        // 在 initialize 函数中添加
+        const reuseWatermarkBtn = document.getElementById('reuseWatermark');
+        const previousWatermarkText = document.getElementById('previousWatermarkText');
+
+        // 检查并显示上次使用的水印文字
+        function checkPreviousWatermark() {
+            const lastWatermark = localStorage.getItem('lastWatermark');
+            console.log('检查历史水印:', lastWatermark); // 添加调试日志
+            if (lastWatermark) {
+                previousWatermarkText.textContent = lastWatermark;
+                reuseWatermarkBtn.classList.remove('hidden');
+                console.log('显示重用按钮'); // 添加调试日志
+            } else {
+                reuseWatermarkBtn.classList.add('hidden');
+                console.log('隐藏重用按钮'); // 添加调试日志
+            }
+        }
+
+        // 保存水印文字到本地存储
+        function saveWatermark(text) {
+            console.log('保存水印文字:', text); // 添加调试日志
+            if (text.trim()) {
+                localStorage.setItem('lastWatermark', text);
+                checkPreviousWatermark();
+            }
+        }
+
+        // 点击重用按钮时的处理
+        reuseWatermarkBtn.addEventListener('click', () => {
+            const lastWatermark = localStorage.getItem('lastWatermark');
+            console.log('点击重用按钮，获取到的水印文字:', lastWatermark);
+            if (lastWatermark) {
+                watermarkText.value = lastWatermark;
+                adjustTextareaHeight(watermarkText);
+                watermarkText.focus();
+            }
+        });
+
+        // 初始检查是否有历史记录
+        checkPreviousWatermark();
     } catch (error) {
         console.error('Initialization error:', error);
         // 确保即使出错也移除loading状态
@@ -167,23 +207,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function processImages() {
-    console.log('Processing images...');
-    if (uploadedFiles.length === 0) {
-        alert(translations[currentLang].noImagesSelected);
-        return;
+// 定义处理图片的主函数
+async function processImages() {
+    try {
+        // 先保存水印文字
+        const text = watermarkText.value;
+        console.log('正在保存水印文字:', text);
+        if (text.trim()) {
+            localStorage.setItem('lastWatermark', text);
+            console.log('水印文字已保存到 localStorage');
+            previousWatermarkText.textContent = text;
+        }
+        
+        // 显示处理中的 loader
+        processingLoader.style.display = 'block';
+        processButton.disabled = true;
+
+        // 处理图片
+        if (uploadedFiles.length === 0) {
+            alert(translations[currentLang].noImagesSelected);
+            return;
+        }
+
+        // 清空预览容器
+        previewContainer.innerHTML = '';
+
+        // 处理每张图片
+        for (const file of uploadedFiles) {
+            await processImage(file);
+        }
+
+        // 显示结果区域
+        resultSection.classList.remove('hidden');
+        
+        // 滚动到结果区域
+        resultSection.scrollIntoView({ behavior: 'smooth' });
+    } catch (error) {
+        console.error('处理图片时出错:', error);
+    } finally {
+        // 隐藏处理中的 loader
+        processingLoader.style.display = 'none';
+        processButton.disabled = false;
     }
-
-    const maxFiles = Math.min(uploadedFiles.length, 20);
-    previewContainer.innerHTML = ''; // 清空之前的预览
-
-    for (let i = 0; i < maxFiles; i++) {
-        processImage(uploadedFiles[i]);
-    }
-
-    // 处理完成后显示结果部分
-    resultSection.classList.remove('hidden');
 }
+
+// 添加事件监听
+processButton.addEventListener('click', processImages);
+
 function processImage(file) {
     console.log('Processing image:', file.name);
     const reader = new FileReader();
@@ -398,23 +468,6 @@ function initializeFileInput() {
     fileInput.addEventListener('change', handleFileSelect);
 }
 
-processButton.addEventListener('click', async () => {
-    // 显示处理中的 loader
-    processingLoader.style.display = 'block';
-    processButton.disabled = true;
-
-    try {
-        // 这里是您处理图片的代码
-        // await processImages();
-    } catch (error) {
-        console.error('处���图片时出错:', error);
-    } finally {
-        // 隐藏处理中的 loader
-        processingLoader.style.display = 'none';
-        processButton.disabled = false;
-    }
-});
-
 // 修改 handleFileSelect 函数
 function handleFileSelect(e) {
     const files = e.target.files;
@@ -557,7 +610,7 @@ async function downloadAllImages() {
     });
 }
 
-// 添加这个辅助函数来生成时间戳
+// 添加个辅助函数来生成时间戳
 function getFormattedTimestamp() {
     const now = new Date();
     return now.getFullYear() +

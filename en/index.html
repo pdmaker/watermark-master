@@ -194,13 +194,25 @@
             <div id="imagePreviewArea"></div>
           </div>
           <div class="mb-4">
-            <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="watermarkText"
-              data-i18n="watermarkText"
-            >
-              Text
-            </label>
+            <div class="flex justify-between items-center mb-2">
+              <label
+                class="block text-gray-700 text-sm font-bold"
+                for="watermarkText"
+                data-i18n="watermarkText"
+              >
+                Text
+              </label>
+              <button
+                id="reuseWatermark"
+                class="text-sm text-gray-500 hover:text-blue-500 flex items-center hidden transition-colors duration-200"
+              >
+                <svg class="w-4 h-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                </svg>
+                <span data-i18n="reusePrevious">Reuse last: </span>
+                <span id="previousWatermarkText" class="ml-1 truncate max-w-[150px]"></span>
+              </button>
+            </div>
             <textarea
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 text-sm focus:outline-none focus:shadow-outline resize-none transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               id="watermarkText"

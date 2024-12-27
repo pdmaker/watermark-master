@@ -196,13 +196,25 @@
             <div id="imagePreviewArea"></div>
           </div>
           <div class="mb-4">
-            <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="watermarkText"
-              data-i18n="watermarkText"
-            >
-              文字
-            </label>
+            <div class="flex justify-between items-center mb-2">
+              <label
+                class="block text-gray-700 text-sm font-bold"
+                for="watermarkText"
+                data-i18n="watermarkText"
+              >
+                文字
+              </label>
+              <button
+                id="reuseWatermark"
+                class="text-sm text-gray-500 hover:text-blue-500 flex items-center transition-colors duration-200"
+              >
+                <svg class="w-4 h-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                </svg>
+                <span data-i18n="reusePrevious">填入上一次：</span>
+                <span id="previousWatermarkText" class="ml-1 truncate max-w-[150px]">测试水印</span>
+              </button>
+            </div>
             <textarea
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 text-sm focus:outline-none focus:shadow-outline resize-none transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               id="watermarkText"
@@ -410,7 +422,7 @@
               <li data-i18n="step1">选择或粘贴图片（支持最多20张图片同时处理）</li>
               <li data-i18n="step2">输入想要添加的水印文字</li>
               <li data-i18n="step3">选择水印位置（整体平铺或四个角落之一）</li>
-              <li data-i18n="step4">调整水印密度（仅平铺模式）颜色和大小</li>
+              <li data-i18n="step4">调整水印密度（仅平铺模式）、颜色和大小</li>
               <li data-i18n="step5">点击"处理图片"按钮生成水印</li>
               <li data-i18n="step6">预览效果，可以直接下载或复制到剪贴板</li>
               <li data-i18n="step7">使用"一键全部下载"批量保存所有处理后的图片</li>
@@ -435,15 +447,15 @@
                 为什么说「加水印」网站可以保护使用者隐私？
               </h3>
               <p class="text-gray-700" data-i18n="qa2Answer">
-                所有图片处理都在用户本地浏览器中完成，不会上传到任何服务器。源文件和处理后的文件只存在于用户设备上，确保敏感信息的安全性。同时，网站完全免费，无需注册账号，不收集任��用户信息。
+                所有图片处理都在用户本地浏览器中完成，不会上传到任何服务器。源文件和处理后的文件都只存在于用户设备中，确保敏感信息的安全性。同时，网站完全免费，无需注册账号，不收集任何用户信息。
               </p>
-            </div>
+            </div>  
             <div class="bg-white rounded-lg shadow-md p-6">
               <h3 class="text-xl font-bold mb-2" data-i18n="qa3Title">
-                加水印产品有什么典型的用户场景？
+                「加水印」有什么典型的用户场景？
               </h3>
               <p class="text-gray-700" data-i18n="qa3Answer">
-                主要应用场景包括：1) 私域运营的素材保护，适合电商品牌运营人员和微商从业者；2) 敏感文件保护，如身份证、营业执照等证件的水印添加；3) 摄影作品版权保护；4) 产品图片、宣传材料的品牌标识添加。
+                主要应用场景包括：1) 私域运营的素材保护，适合电商品牌运营人员和微商从业者；2) 敏感文件保护，如身份证、营业执照等证件的水印添加；3) 摄影作品版权保护；4) 产品图片、宣传材料的品牌 Logo 添加。
               </p>
             </div>
           </div>

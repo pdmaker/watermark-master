@@ -73,8 +73,8 @@ const translations = {
         qa1Answer: '产品简单易用，批量处理更高效，用户体验优良。完全在本地浏览器运行，无需上传文件到服务器，确保用户隐私安全。支持多种水印样式和位置，满足不同场景需求。',
         qa2Title: '为什么说「加水印」网站可以保护使用者隐私？',
         qa2Answer: '所有图片处理都在用户本地浏览器中完成，不会上传到任何服务器。源文件和处理后的文件都只存在于用户设备中，确保敏感信息的安全性。同时，网站完全免费，无需注册账号，不收集任何用户信息。',
-        qa3Title: '加水印产品有什么典型的用户场景？',
-        qa3Answer: '主要应用场景包括：1) 私域运营的素材保护，适合电商品牌运营人员和微商从业者；2) 敏感文件保护，如身份证、营业执照等证件的水印添加；3) 摄影作品版权保护；4) 产品图片、宣传材料的品牌标识添加。',
+        qa3Title: '「加水印」有什么典型的用户场景？',
+        qa3Answer: '主要应用场景包括：1) 私域运营的素材保护，适合电商品牌运营人员和微商从业者；2) 敏感文件保护，如身份证、营业执照等证件的水印添加；3) 摄影作品版权保护；4) 产品图片、宣传材料的品牌 Logo 添加。',
         watermarkPositionCenter: '居中',
         retirementCountdown: '退休倒计时',
         blogLink: '博客',
@@ -84,6 +84,8 @@ const translations = {
         logoShort: '加水印',
         openUrlsBatch: '批量打开网页',
         maxLinesReached: '最多只能输入3行文本',
+        reusePrevious: '填入上一次：',
+        noHistory: '暂无历史记录',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -168,6 +170,8 @@ const translations = {
         logoShort: 'WM Adder',
         openUrlsBatch: 'Batch Open URLs',
         maxLinesReached: 'Maximum 3 lines allowed',
+        reusePrevious: 'Reuse last: ',
+        noHistory: 'No history',
     }
 };
 
