@@ -394,25 +394,58 @@ function processImage(file) {
 
             // 创建预览项
             const previewItem = document.createElement('div');
-            previewItem.className = 'preview-item';
+            previewItem.className = 'preview-item bg-white p-4 rounded-lg shadow';
 
             const previewImg = document.createElement('img');
             previewImg.src = canvas.toDataURL();
-            previewImg.className = 'preview-image';
+            previewImg.className = 'preview-image w-full h-auto mb-4 cursor-pointer';
             previewImg.addEventListener('click', function() {
                 modalImage.src = this.src;
                 imageModal.classList.remove('hidden');
             });
             previewItem.appendChild(previewImg);
 
+            // 添加文件名输入区域
+            const filenameContainer = document.createElement('div');
+            filenameContainer.className = 'mb-4';
+            
+            const filenameLabel = document.createElement('label');
+            filenameLabel.className = 'block text-gray-700 text-sm font-bold mb-2';
+            filenameLabel.textContent = translations[currentLang].filename || '文件名';
+            filenameContainer.appendChild(filenameLabel);
+
+            const filenameInput = document.createElement('input');
+            filenameInput.type = 'text';
+            filenameInput.className = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline';
+            
+            // 设置默认文件名
+            const timestamp = getFormattedTimestamp();
+            if (file.name && file.name !== 'image.png') {
+                // 上传的图片：保留原文件名，添加水印标识和时间戳
+                const originalName = file.name.substring(0, file.name.lastIndexOf('.'));
+                const extension = file.name.substring(file.name.lastIndexOf('.'));
+                const watermarkIdentifier = currentLang === 'en' ? '_watermarked_' : '_已加水印_';
+                filenameInput.value = `${originalName}${watermarkIdentifier}${timestamp}${extension}`;
+            } else {
+                // 粘贴的图片：使用默认名称
+                filenameInput.value = `image_${timestamp}.png`;
+                filenameInput.placeholder = translations[currentLang].enterFilename || '输入文件名';
+            }
+            
+            filenameContainer.appendChild(filenameInput);
+            previewItem.appendChild(filenameContainer);
+
             const buttonGroup = document.createElement('div');
             buttonGroup.className = 'button-group';
 
             const downloadLink = document.createElement('a');
-            downloadLink.href = canvas.toDataURL('image/png');
-            downloadLink.download = `watermarked_${file.name}`;
-            downloadLink.textContent = translations[currentLang].downloadImage;
+            downloadLink.href = canvas.toDataURL(file.type || 'image/png');
             downloadLink.className = 'download-button';
+            downloadLink.textContent = translations[currentLang].downloadImage;
+            // 更新下载链接的文件名
+            downloadLink.addEventListener('click', function(e) {
+                this.download = filenameInput.value;
+            });
             buttonGroup.appendChild(downloadLink);
 
             const copyButton = document.createElement('button');
@@ -595,13 +628,18 @@ async function downloadAllImages() {
     const timestamp = getFormattedTimestamp();
     const zipFilename = `${watermarkTextValue}-${timestamp}.zip`;
 
-    // 收集所有图片 URL
-    const imageUrls = Array.from(previewContainer.querySelectorAll('img')).map(img => img.src);
-
+    // 收集所有预览项
+    const previewItems = Array.from(previewContainer.querySelectorAll('.preview-item'));
+    
     // 添加所有图片到 zip
-    for (let i = 0; i < imageUrls.length; i++) {
-        const imageBlob = await fetch(imageUrls[i]).then(r => r.blob());
-        zip.file(`image-${i+1}.png`, imageBlob);
+    for (let i = 0; i < previewItems.length; i++) {
+        const previewItem = previewItems[i];
+        const img = previewItem.querySelector('img');
+        const filenameInput = previewItem.querySelector('input[type="text"]');
+        const filename = filenameInput.value;
+        
+        const imageBlob = await fetch(img.src).then(r => r.blob());
+        zip.file(filename, imageBlob);
     }
 
     // 生成并下载 zip 文件

@@ -86,6 +86,8 @@ const translations = {
         maxLinesReached: '最多只能输入3行文本',
         reusePrevious: '填入上一次：',
         noHistory: '暂无历史记录',
+        filename: '文件名',
+        enterFilename: '输入文件名',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -172,6 +174,8 @@ const translations = {
         maxLinesReached: 'Maximum 3 lines allowed',
         reusePrevious: 'Reuse last: ',
         noHistory: 'No history',
+        filename: 'Filename',
+        enterFilename: 'Enter filename',
     }
 };
 
