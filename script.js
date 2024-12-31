@@ -106,18 +106,24 @@ async function initialize() {
             const lines = this.value.split('\n');
             if (lines.length > 3) {
                 // 如果超过3行，只保留前3行
-                this.value = lines.slice(0, 3).join('\n');
+                const firstThreeLines = lines.slice(0, 3);
+                this.value = firstThreeLines.join('\n');
+                // 将光标放到第三行末尾
+                this.selectionStart = this.selectionEnd = this.value.length;
             }
             adjustTextareaHeight(this);
         });
 
         watermarkTextArea.addEventListener('keydown', function(e) {
-            const lines = this.value.split('\n');
+            const lines = this.value.split('\n').filter(line => line.length > 0);
+            const cursorPosition = this.selectionStart;
+            const textBeforeCursor = this.value.substring(0, cursorPosition);
+            const linesBeforeCursor = textBeforeCursor.split('\n').filter(line => line.length > 0);
             
-            // 如果已经有3行且按下回车，则阻止默认行为
-            if (lines.length >= 3 && e.key === 'Enter' && !e.shiftKey) {
+            // 如果已经有3行，或者光标前已经有2行且当前行不为空，则阻止回车
+            if (e.key === 'Enter' && !e.shiftKey && 
+                (lines.length >= 3 || (linesBeforeCursor.length >= 2 && this.value.charAt(cursorPosition - 1) !== '\n'))) {
                 e.preventDefault();
-                // 显示提示信息
                 alert(translations[currentLang].maxLinesReached || 'Maximum 3 lines allowed');
                 return;
             }
@@ -125,16 +131,50 @@ async function initialize() {
 
         // 处理粘贴事件
         watermarkTextArea.addEventListener('paste', function(e) {
+            e.stopPropagation(); // 阻止事件冒泡，防止触发document级别的粘贴事件处理
+            
             const pastedText = e.clipboardData.getData('text');
-            const lines = pastedText.split('\n');
-            const currentLines = this.value.split('\n');
-            const totalLines = currentLines.length + lines.length - 1;
-
-            // 如果粘贴后会超过3行，阻止默认行为
-            if (totalLines > 3) {
+            const lines = pastedText.split('\n').filter(line => line.length > 0); // 过滤空行
+            const currentText = this.value;
+            const currentLines = currentText ? currentText.split('\n').filter(line => line.length > 0) : []; // 过滤空行
+            
+            // 如果当前已有内容，且光标不在开头，需要考虑换行符
+            const cursorPosition = this.selectionStart;
+            const isAtStart = cursorPosition === 0;
+            const isAtEnd = cursorPosition === currentText.length;
+            
+            let newText;
+            if (currentLines.length + lines.length > 3) {
                 e.preventDefault();
+                // 计算还可以添加多少行
+                const remainingLines = 3 - currentLines.length;
+                if (remainingLines > 0) {
+                    // 只取需要的行数
+                    const allowedLines = lines.slice(0, remainingLines);
+                    
+                    if (isAtStart) {
+                        newText = allowedLines.join('\n') + '\n' + currentText;
+                    } else if (isAtEnd) {
+                        newText = currentText + (currentText ? '\n' : '') + allowedLines.join('\n');
+                    } else {
+                        // 在光标位置插入
+                        newText = currentText.slice(0, cursorPosition) + 
+                                (cursorPosition > 0 ? '\n' : '') + 
+                                allowedLines.join('\n') + 
+                                currentText.slice(cursorPosition);
+                    }
+                    
+                    // 确保总行数不超过3行
+                    const finalLines = newText.split('\n').filter(line => line.length > 0);
+                    if (finalLines.length > 3) {
+                        newText = finalLines.slice(0, 3).join('\n');
+                    }
+                    
+                    this.value = newText;
+                }
                 alert(translations[currentLang].maxLinesReached || 'Maximum 3 lines allowed');
             }
+            
             // 在下一个事件循环中调整高度，确保内容已更新
             setTimeout(() => adjustTextareaHeight(this), 0);
         });
@@ -417,6 +457,11 @@ function processImage(file) {
             const filenameInput = document.createElement('input');
             filenameInput.type = 'text';
             filenameInput.className = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline';
+            filenameInput.spellcheck = false;
+            filenameInput.autocomplete = 'off';
+            filenameInput.addEventListener('paste', (e) => {
+                e.stopPropagation(); // 阻止事件冒泡，防止触发document级别的粘贴事件处理
+            });
             
             // 设置默认文件名
             const timestamp = getFormattedTimestamp();
