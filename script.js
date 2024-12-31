@@ -269,12 +269,22 @@ async function processImages() {
             return;
         }
 
+        // 保存现有的文件名
+        const existingFilenames = {};
+        document.querySelectorAll('.preview-item').forEach(item => {
+            const img = item.querySelector('img');
+            const input = item.querySelector('input[type="text"]');
+            if (img && input) {
+                existingFilenames[img.src] = input.value;
+            }
+        });
+
         // 清空预览容器
         previewContainer.innerHTML = '';
 
         // 处理每张图片
         for (const file of uploadedFiles) {
-            await processImage(file);
+            await processImage(file, existingFilenames);
         }
 
         // 显示结果区域
@@ -294,7 +304,7 @@ async function processImages() {
 // 添加事件监听
 processButton.addEventListener('click', processImages);
 
-function processImage(file) {
+function processImage(file, existingFilenames = {}) {
     console.log('Processing image:', file.name);
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -463,18 +473,21 @@ function processImage(file) {
                 e.stopPropagation(); // 阻止事件冒泡，防止触发document级别的粘贴事件处理
             });
             
-            // 设置默认文件名
-            const timestamp = getFormattedTimestamp();
-            if (file.name && file.name !== 'image.png') {
-                // 上传的图片：保留原文件名，添加水印标识和时间戳
-                const originalName = file.name.substring(0, file.name.lastIndexOf('.'));
-                const extension = file.name.substring(file.name.lastIndexOf('.'));
-                const watermarkIdentifier = currentLang === 'en' ? '_watermarked_' : '_已加水印_';
-                filenameInput.value = `${originalName}${watermarkIdentifier}${timestamp}${extension}`;
+            // 在设置文件名时，检查是否有之前保存的文件名
+            const imgDataUrl = canvas.toDataURL();
+            if (existingFilenames[imgDataUrl]) {
+                filenameInput.value = existingFilenames[imgDataUrl];
             } else {
-                // 粘贴的图片：使用默认名称
-                filenameInput.value = `image_${timestamp}.png`;
-                filenameInput.placeholder = translations[currentLang].enterFilename || '输入文件名';
+                // 使用默认的文件名逻辑
+                const timestamp = getFormattedTimestamp();
+                if (file.name && file.name !== 'image.png') {
+                    const originalName = file.name.substring(0, file.name.lastIndexOf('.'));
+                    const extension = file.name.substring(file.name.lastIndexOf('.'));
+                    const watermarkIdentifier = currentLang === 'en' ? '_watermarked_' : '_已加水印_';
+                    filenameInput.value = `${originalName}${watermarkIdentifier}${timestamp}${extension}`;
+                } else {
+                    filenameInput.value = `image_${timestamp}.png`;
+                }
             }
             
             filenameContainer.appendChild(filenameInput);
