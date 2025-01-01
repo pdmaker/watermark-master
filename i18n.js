@@ -88,6 +88,7 @@ const translations = {
         noHistory: '暂无历史记录',
         filename: '文件名',
         enterFilename: '输入文件名',
+        noWatermarkText: '请输入水印文字',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -176,6 +177,7 @@ const translations = {
         noHistory: 'No history',
         filename: 'Filename',
         enterFilename: 'Enter filename',
+        noWatermarkText: 'Please enter watermark text',
     }
 };
 

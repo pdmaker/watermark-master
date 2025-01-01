@@ -22,6 +22,94 @@ const downloadAllButton = document.getElementById('downloadAllButton');
 const resultSection = document.getElementById('resultSection');
 const watermarkPosition = document.getElementById('watermarkPosition');
 
+// 添加 Toast 管理器
+const ToastManager = {
+    container: null,
+    queue: [],
+    
+    initialize() {
+        // 创建 Toast 容器
+        this.container = document.createElement('div');
+        this.container.className = 'toast-container';
+        document.body.appendChild(this.container);
+    },
+    
+    show(message, type = 'info', duration = 3000, isInline = false, targetElement = null) {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        
+        if (isInline && targetElement) {
+            // 创建内联提示
+            const warningDiv = document.createElement('div');
+            warningDiv.className = 'inline-warning';
+            warningDiv.textContent = message;
+            
+            // 插入到目标元素后面
+            targetElement.parentNode.insertBefore(warningDiv, targetElement.nextSibling);
+            
+            // 添加显示类
+            setTimeout(() => warningDiv.classList.add('show'), 10);
+            
+            // 设置定时移除
+            setTimeout(() => {
+                warningDiv.classList.remove('show');
+                setTimeout(() => warningDiv.remove(), 300);
+            }, duration);
+            
+            return;
+        }
+        
+        // 添加到容器
+        this.container.appendChild(toast);
+        
+        // 触发重排以启动动画
+        toast.offsetHeight;
+        toast.classList.add('show');
+        
+        // 设置定时移除
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+    },
+    
+    showWarning(message, targetElement = null) {
+        this.show(message, 'warning', 3000, true, targetElement);
+    },
+    
+    showError(message, targetElement = null) {
+        this.show(message, 'error', 3000, true, targetElement);
+    }
+};
+
+// 添加输入警告状态管理
+function showInputWarning(input, message) {
+    input.classList.add('input-warning');
+    
+    // 移除现有的警告文本
+    const existingWarning = input.parentNode.querySelector('.warning-text');
+    if (existingWarning) {
+        existingWarning.remove();
+    }
+    
+    // 创建新的警告文本
+    const warningText = document.createElement('div');
+    warningText.className = 'warning-text';
+    warningText.textContent = message;
+    input.parentNode.appendChild(warningText);
+    
+    // 触发动画
+    setTimeout(() => warningText.classList.add('show'), 10);
+    
+    // 设置自动移除
+    setTimeout(() => {
+        input.classList.remove('input-warning');
+        warningText.classList.remove('show');
+        setTimeout(() => warningText.remove(), 300);
+    }, 3000);
+}
+
 function initializeColorInput() {
     const initialColor = '#dedede';
     watermarkColor.value = initialColor;
@@ -115,17 +203,18 @@ async function initialize() {
         });
 
         watermarkTextArea.addEventListener('keydown', function(e) {
-            const lines = this.value.split('\n').filter(line => line.length > 0);
+            const lines = this.value.split('\n').filter(line => line.trim() !== '');
             const cursorPosition = this.selectionStart;
             const textBeforeCursor = this.value.substring(0, cursorPosition);
-            const linesBeforeCursor = textBeforeCursor.split('\n').filter(line => line.length > 0);
+            const linesBeforeCursor = textBeforeCursor.split('\n').filter(line => line.trim() !== '');
             
-            // 如果已经有3行，或者光标前已经有2行且当前行不为空，则阻止回车
-            if (e.key === 'Enter' && !e.shiftKey && 
-                (lines.length >= 3 || (linesBeforeCursor.length >= 2 && this.value.charAt(cursorPosition - 1) !== '\n'))) {
-                e.preventDefault();
-                alert(translations[currentLang].maxLinesReached || 'Maximum 3 lines allowed');
-                return;
+            // 如果在第三行末尾或之后按回车，阻止
+            if (e.key === 'Enter' && !e.shiftKey) {
+                if (lines.length >= 3 || linesBeforeCursor.length >= 3) {
+                    e.preventDefault();
+                    showInputWarning(this, translations[currentLang].maxLinesReached);
+                    return;
+                }
             }
         });
 
@@ -237,6 +326,9 @@ async function initialize() {
 
         // 初始检查是否有历史记录
         checkPreviousWatermark();
+
+        // 初始化 Toast 管理器
+        ToastManager.initialize();
     } catch (error) {
         console.error('Initialization error:', error);
         // 确保即使出错也移除loading状态
@@ -262,14 +354,24 @@ document.addEventListener('DOMContentLoaded', () => {
 // 定义处理图片的主函数
 async function processImages() {
     try {
-        // 先保存水印文字
+        // 先检查水印文本
         const text = watermarkText.value;
-        console.log('正在保存水印文字:', text);
-        if (text.trim()) {
-            localStorage.setItem('lastWatermark', text);
-            console.log('水印文字已保存到 localStorage');
-            previousWatermarkText.textContent = text;
+        if (!text.trim()) {
+            watermarkText.classList.add('input-warning');
+            ToastManager.showWarning(translations[currentLang].noWatermarkText || '请输入水印文字', watermarkText);
+            
+            // 3秒后移除警告状态
+            setTimeout(() => {
+                watermarkText.classList.remove('input-warning');
+            }, 3000);
+            return;
         }
+
+        // 保存水印文字
+        console.log('正在保存水印文字:', text);
+        localStorage.setItem('lastWatermark', text);
+        console.log('水印文字已保存到 localStorage');
+        previousWatermarkText.textContent = text;
         
         // 显示处理中的 loader
         processingLoader.style.display = 'block';
@@ -277,7 +379,14 @@ async function processImages() {
 
         // 处理图片
         if (uploadedFiles.length === 0) {
-            alert(translations[currentLang].noImagesSelected);
+            const pasteArea = document.getElementById('pasteArea');
+            pasteArea.classList.add('upload-warning');
+            ToastManager.showWarning(translations[currentLang].noImagesSelected, pasteArea);
+            
+            // 3秒后移除警告状态
+            setTimeout(() => {
+                pasteArea.classList.remove('upload-warning');
+            }, 3000);
             return;
         }
 
@@ -306,6 +415,7 @@ async function processImages() {
         resultSection.scrollIntoView({ behavior: 'smooth' });
     } catch (error) {
         console.error('处理图片时出错:', error);
+        ToastManager.showError('处理图片时出错，请重试');
     } finally {
         // 隐藏处理中的 loader
         processingLoader.style.display = 'none';

@@ -516,3 +516,104 @@ select:disabled {
     border-color: #3B82F6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
+
+/* Toast 组件样式 */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.toast {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  max-width: 300px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast.info {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.toast.warning {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.toast.error {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* 输入警告状态 */
+.input-warning {
+  border-color: #f59e0b !important;
+  animation: shake 0.5s ease-in-out;
+}
+
+.warning-text {
+  color: #f59e0b;
+  font-size: 12px;
+  margin-top: 4px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.warning-text.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 上传区域警告状态 */
+.upload-warning {
+  border-color: #f59e0b !important;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+@keyframes pulse {
+  0%, 100% { border-color: #f59e0b; }
+  50% { border-color: transparent; }
+}
+
+/* 内联提示样式 */
+.inline-warning {
+  background-color: #fff7ed;
+  border-left: 4px solid #f59e0b;
+  color: #9a3412;
+  padding: 8px 12px;
+  margin-top: 4px;
+  font-size: 14px;
+  border-radius: 0 4px 4px 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.inline-warning.show {
+  opacity: 1;
+  transform: translateY(0);
+}
