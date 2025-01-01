@@ -192,14 +192,26 @@ async function initialize() {
         // 检查并显示上次使用的水印文字
         function checkPreviousWatermark() {
             const lastWatermark = localStorage.getItem('lastWatermark');
-            console.log('检查历史水印:', lastWatermark); // 添加调试日志
+            console.log('检查历史水印:', lastWatermark);
             if (lastWatermark) {
-                previousWatermarkText.textContent = lastWatermark;
+                // 处理长文本，最多显示10个字符
+                const displayText = lastWatermark.length > 10 
+                    ? lastWatermark.substring(0, 10) + '...' 
+                    : lastWatermark;
+                
+                // 设置显示文本
+                previousWatermarkText.textContent = displayText;
+                // 设置完整文本作为title属性，鼠标悬停时显示
+                previousWatermarkText.title = lastWatermark;
+                
+                // 添加样式
+                previousWatermarkText.className = 'ml-1 truncate max-w-[150px] inline-block align-middle';
+                
                 reuseWatermarkBtn.classList.remove('hidden');
-                console.log('显示重用按钮'); // 添加调试日志
+                console.log('显示重用按钮');
             } else {
                 reuseWatermarkBtn.classList.add('hidden');
-                console.log('隐藏重用按钮'); // 添加调试日志
+                console.log('隐藏重用按钮');
             }
         }
 
