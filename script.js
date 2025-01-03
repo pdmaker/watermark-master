@@ -153,10 +153,32 @@ async function initialize() {
         // 修改这部分代码
         const pasteArea = document.getElementById('pasteArea');
         const imageInput = document.getElementById('imageInput');
+        
+        // 点击上传
         pasteArea.addEventListener('click', () => imageInput.click());
+        
+        // 粘贴处理
         pasteArea.addEventListener('paste', handlePaste);
         document.addEventListener('paste', handlePaste);
+        
+        // 文件选择处理
         imageInput.addEventListener('change', handleFileSelect);
+
+        // 拖拽相关事件处理
+        pasteArea.addEventListener('dragenter', handleDragEnter);
+        pasteArea.addEventListener('dragover', handleDragOver);
+        pasteArea.addEventListener('dragleave', handleDragLeave);
+        pasteArea.addEventListener('drop', handleDrop);
+
+        // 防止拖拽文件时浏览器打开文件
+        document.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+        document.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        });
 
         resetButton.addEventListener('click', resetAll);
         downloadAllButton.addEventListener('click', downloadAllImages);
@@ -941,3 +963,58 @@ watermarkOpacity.addEventListener('blur', function(e) {
     
     this.value = value;
 });
+
+// 添加以下拖拽处理函数
+function handleDragEnter(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.classList.add('drag-over');
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.classList.add('drag-over');
+}
+
+function handleDragLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.classList.remove('drag-over');
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.classList.remove('drag-over');
+
+    const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+    
+    if (files.length === 0) {
+        // 如果没有图片文件，显示提示
+        ToastManager.showWarning(translations[currentLang].noValidImages || '请拖入图片文件', this);
+        return;
+    }
+
+    // 限制文件数量
+    const remainingSlots = 20 - uploadedFiles.length;
+    if (remainingSlots <= 0) {
+        ToastManager.showWarning(translations[currentLang].maxImagesReached || '最多只能上传20张图片', this);
+        return;
+    }
+
+    const filesToAdd = files.slice(0, remainingSlots);
+    uploadedFiles = uploadedFiles.concat(filesToAdd);
+    
+    if (files.length > remainingSlots) {
+        // 如果有文件被忽略，显示提示
+        ToastManager.showWarning(
+            translations[currentLang].someImagesIgnored || 
+            `已添加 ${filesToAdd.length} 张图片，${files.length - filesToAdd.length} 张因超出限制而忽略`,
+            this
+        );
+    }
+
+    updateFileNameDisplay();
+    updateImagePreview();
+}

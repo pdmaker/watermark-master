@@ -470,6 +470,40 @@ select:disabled {
   justify-content: center;
   align-items: center;
   margin-bottom: 0;
+  border: 2px dashed #3b82f6;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+#pasteArea.drag-over {
+  border-color: #2563eb;
+  background-color: rgba(59, 130, 246, 0.1);
+  transform: scale(1.01);
+}
+
+#pasteArea.drag-over::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+      rgba(59, 130, 246, 0.1) 25%, 
+      rgba(59, 130, 246, 0.2) 25%, 
+      rgba(59, 130, 246, 0.2) 50%, 
+      rgba(59, 130, 246, 0.1) 50%, 
+      rgba(59, 130, 246, 0.1) 75%, 
+      rgba(59, 130, 246, 0.2) 75%);
+  background-size: 20px 20px;
+  animation: moveStripes 1s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes moveStripes {
+  0% { background-position: 0 0; }
+  100% { background-position: 20px 0; }
 }
 
 /* 确保图片预览区域的间距合适 */

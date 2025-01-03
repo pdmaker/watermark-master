@@ -28,7 +28,7 @@ const translations = {
         filesSelected: '张图片已选择',
         fileSelected: '张图片已选择',
         filesSelected: '张图片已选择',
-        pasteAreaText: '点击上传或直接粘贴图片',
+        pasteAreaText: '点击上传、粘贴或拖拽图片到这里',
         resetButton: '重置',
         watermarkResults: '加水印结果',
         downloadAll: '一键全部下载',
@@ -89,6 +89,9 @@ const translations = {
         filename: '文件名',
         enterFilename: '输入文件名',
         noWatermarkText: '请输入水印文字',
+        noValidImages: '请拖入图片文件',
+        maxImagesReached: '最多只能上传20张图片',
+        someImagesIgnored: '已添加 {0} 张图片，{1} 张因超出限制而忽略',
     },
     'en': {
         title: 'Batch Image Watermark Tool',
@@ -117,7 +120,7 @@ const translations = {
         filesSelected: 'images selected',
         fileSelected: 'image selected',
         filesSelected: 'images selected',
-        pasteAreaText: 'Click to upload or paste images directly',
+        pasteAreaText: 'Click to upload, paste or drag images here',
         resetButton: 'Reset',
         watermarkResults: 'Watermark Results',
         downloadAll: 'Download All',
@@ -178,6 +181,9 @@ const translations = {
         filename: 'Filename',
         enterFilename: 'Enter filename',
         noWatermarkText: 'Please enter watermark text',
+        noValidImages: 'Please drag image files',
+        maxImagesReached: 'Maximum 20 images allowed',
+        someImagesIgnored: 'Added {0} images, {1} ignored due to limit',
     }
 };
 
