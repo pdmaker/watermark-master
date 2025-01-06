@@ -25,9 +25,76 @@
       property="og:image"
       content="https://jiashuiyin.com/images/logo.jpg"
     />
-    <link rel="preload" href="../styles.css" as="style" />
+    <style>
+      /* Critical rendering path styles */
+      body { background-color: #f3f4f6; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+      .container { max-width: 800px; margin: 0 auto; padding: 0 1rem; }
+      .bg-white { background-color: white; }
+      .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+      .fixed { position: fixed; }
+      .top-0 { top: 0; }
+      .left-0 { left: 0; }
+      .right-0 { right: 0; }
+      .z-50 { z-index: 50; }
+      .flex { display: flex; }
+      .items-center { align-items: center; }
+      .justify-between { justify-content: space-between; }
+      .px-4 { padding-left: 1rem; padding-right: 1rem; }
+      .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+      .text-xl { font-size: 1.25rem; }
+      .font-bold { font-weight: 700; }
+      .text-gray-800 { color: #1f2937; }
+      
+      /* Additional first screen styles */
+      .space-x-8 > * + * { margin-left: 2rem; }
+      .cursor-pointer { cursor: pointer; }
+      .h-8 { height: 2rem; }
+      .w-8 { width: 2rem; }
+      .mr-2 { margin-right: 0.5rem; }
+      .text-gray-700 { color: #374151; }
+      .hover\:text-blue-500:hover { color: #3b82f6; }
+      .font-medium { font-weight: 500; }
+      .text-sm { font-size: 0.875rem; }
+      .rounded-lg { border-radius: 0.5rem; }
+      .p-6 { padding: 1.5rem; }
+      .mb-4 { margin-bottom: 1rem; }
+      .mt-2 { margin-top: 0.5rem; }
+      .border-2 { border-width: 2px; }
+      .border-dashed { border-style: dashed; }
+      .border-blue-500 { border-color: #3b82f6; }
+      .text-center { text-align: center; }
+      .transition-colors { transition-property: background-color, border-color, color, fill, stroke; }
+      .duration-300 { transition-duration: 300ms; }
+      
+      /* Page initialization styles */
+      .page-initializing {
+        opacity: 0;
+        visibility: hidden;
+      }
+      
+      .page-ready {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease;
+      }
+      
+      /* Navigation styles */
+      nav.bg-white {
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      }
+      
+      /* First screen text styles */
+      .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+      .text-center { text-align: center; }
+      .text-gray-600 { color: #4b5563; }
+      .mb-6 { margin-bottom: 1.5rem; }
+    </style>
+    <!-- Async load non-critical CSS -->
+    <link rel="preload" href="../styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="../styles.css"></noscript>
     <link rel="preload" href="../images/logo.png" as="image" />
-    <link rel="stylesheet" href="../styles.css" />
     <link
       rel="icon"
       type="image/x-icon"
@@ -76,19 +143,32 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WH6LLGNFX"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-4WH6LLGNFX", {
-        'send_page_view': false
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4WH6LLGNFX', {
+        'send_page_view': false,
+        'transport_type': 'beacon'
       });
     </script>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4562467673017981"
-        crossorigin="anonymous">
-        </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4562467673017981" crossorigin="anonymous"></script>
+    <!-- CSS loading fallback -->
+    <script>
+      (function() {
+        var cssMain = document.querySelector('link[href="../styles.css"]');
+        if (cssMain) {
+          cssMain.onerror = function() {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '../styles.css';
+            document.head.appendChild(link);
+          };
+        }
+      })();
+    </script>
   </head>
-  <body class="bg-gray-100 font-sans">
+  <body class="bg-gray-100 font-sans page-initializing">
+    <!-- Initial loading mask -->
+    <div id="initialLoadingMask" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: #f3f4f6; z-index: 9999;"></div>
     <div id="pageLoader" class="page-loader">
       <div class="loader-container">
         <div class="loader"></div>
@@ -526,5 +606,23 @@
     </footer>
 
     <script type="module" src="../script.js"></script>
+    <!-- Page loading optimization -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Remove initialization class, add ready class
+        document.body.classList.remove('page-initializing');
+        document.body.classList.add('page-ready');
+        
+        // Remove loading mask
+        const loadingMask = document.getElementById('initialLoadingMask');
+        if (loadingMask) {
+          loadingMask.style.opacity = '0';
+          loadingMask.style.transition = 'opacity 0.3s ease';
+          setTimeout(() => {
+            loadingMask.remove();
+          }, 300);
+        }
+      });
+    </script>
   </body>
 </html>

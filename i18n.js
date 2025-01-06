@@ -191,7 +191,7 @@ function setLanguage(lang) {
     currentLang = lang;
     document.documentElement.lang = lang;
 
-    // 如果当前语言与页面不匹配，直接跳转
+    // 如果当前语言与页面不匹配，进行跳转
     const currentPath = window.location.pathname;
     const shouldBeInEn = lang === 'en';
     const isInEn = currentPath.startsWith('/en');
@@ -199,7 +199,11 @@ function setLanguage(lang) {
     if (shouldBeInEn !== isInEn) {
         // 需要切换页面
         const baseURL = window.location.origin;
-        const newPath = shouldBeInEn ? '/en' : '/';
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        // 本地开发环境使用完整路径
+        const newPath = shouldBeInEn 
+            ? (isLocalhost ? '/en/index.html' : '/en')
+            : '/';
         window.location.href = baseURL + newPath;
         return;
     }
