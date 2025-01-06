@@ -179,60 +179,81 @@
       </div>
     </div>
     <nav class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
-      <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <!-- Left section: Brand and main navigation -->
-        <div class="flex items-center space-x-8 nav-container">
-          <!-- Brand -->
-          <a href="/en" class="flex items-center cursor-pointer">
-            <img src="../images/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
-            <!-- Full brand name -->
-            <span class="text-xl font-bold text-gray-800 brand-name-full" data-i18n="logo">
-              Watermark Adder
-            </span>
-            <!-- Short brand name -->
-            <span class="text-xl font-bold text-gray-800 brand-name-short" data-i18n="logoShort">
-              WM Adder
-            </span>
-          </a>
-          <!-- Main navigation links -->
-          <div class="flex items-center space-x-6">
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+          <!-- Left section: Brand -->
+          <div class="flex items-center">
+            <a href="/en" class="flex items-center cursor-pointer">
+              <img src="../images/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
+              <!-- Full brand name -->
+              <span class="text-xl font-bold text-gray-800 brand-name-full" data-i18n="logo">
+                Watermark Adder
+              </span>
+              <!-- Short brand name -->
+              <span class="text-xl font-bold text-gray-800 brand-name-short" data-i18n="logoShort">
+                WM Adder
+              </span>
+            </a>
+          </div>
+
+          <!-- Middle section: Main navigation links -->
+          <div class="hidden lg:flex items-center space-x-6">
             <a href="/blog/en/index.html" 
                class="text-gray-700 hover:text-blue-500 font-medium" 
                data-i18n="blogLink"
                id="blogLink">Blog</a>
+            <a href="/changelog.html" 
+               class="text-gray-700 hover:text-blue-500 font-medium">Changelog</a>
           </div>
-        </div>
 
-        <!-- Right section: Function buttons -->
-        <div class="flex items-center space-x-4">
-          <!-- GitHub link -->
-          <a
-            href="https://github.com/pdmaker/watermark-master"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-gray-700 hover:text-blue-500"
-            title="GitHub"
-          >
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
-            </svg>
-          </a>
-          <!-- Language selector -->
-          <div class="relative">
-            <select
-              id="languageSelector"
-              class="appearance-none bg-white border border-gray-300 rounded px-4 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
-              aria-label="Select Language"
-            >
-              <option value="zh-CN">中文</option>
-              <option value="en" selected>En</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+          <!-- Right section: Function buttons -->
+          <div class="flex items-center space-x-4">
+            <!-- Mobile menu button -->
+            <button id="mobileMenuButton" class="lg:hidden text-gray-700 hover:text-blue-500">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
               </svg>
+            </button>
+            <!-- GitHub link -->
+            <a
+              href="https://github.com/pdmaker/watermark-master"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-700 hover:text-blue-500 max-[750px]:hidden"
+              title="GitHub"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+              </svg>
+            </a>
+            <!-- Language selector -->
+            <div class="relative">
+              <select
+                id="languageSelector"
+                class="appearance-none bg-white border border-gray-300 rounded px-4 py-2 pr-8 leading-tight focus:outline-none focus:border-blue-500"
+                aria-label="Select Language"
+              >
+                <option value="zh-CN">中文</option>
+                <option value="en" selected>En</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                </svg>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="hidden bg-white border-t border-gray-200">
+        <div class="px-4 py-3 space-y-3">
+          <a href="/blog/en/index.html" 
+             class="block text-gray-700 hover:text-blue-500 font-medium" 
+             data-i18n="blogLink">Blog</a>
+          <a href="/changelog.html" 
+             class="block text-gray-700 hover:text-blue-500 font-medium">Changelog</a>
         </div>
       </div>
     </nav>
@@ -542,9 +563,9 @@
     <footer class="bg-white mt-12 py-8 border-t border-gray-200">
       <div class="container mx-auto px-4">
         <!-- Main Content -->
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8">
-          <!-- Left: Brand Info -->
-          <div class="text-center md:text-left mb-6 md:mb-0">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <!-- Brand Info -->
+          <div class="text-center md:text-left">
             <div class="flex items-center justify-center md:justify-start mb-3">
               <img src="../images/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
               <span class="text-xl font-bold text-gray-800" data-i18n="logo">Watermark Adder</span>
@@ -555,15 +576,42 @@
             </p>
           </div>
           
-          <!-- Right: Contact Info -->
-          <div class="text-center md:text-right">
+          <!-- Quick Links -->
+          <div class="text-center md:text-left">
+            <h4 class="text-sm font-semibold text-gray-700 mb-3">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="/blog/en/index.html" class="text-sm text-gray-600 hover:text-blue-600">Blog</a>
+              </li>
+              <li>
+                <a href="/changelog.html" class="text-sm text-gray-600 hover:text-blue-600">Changelog</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Legal -->
+          <div class="text-center md:text-left">
+            <h4 class="text-sm font-semibold text-gray-700 mb-3">Legal</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="/legal/en/privacy.html" class="text-sm text-gray-600 hover:text-blue-600" data-i18n="privacyPolicy">Privacy Policy</a>
+              </li>
+              <li>
+                <a href="/legal/en/terms.html" class="text-sm text-gray-600 hover:text-blue-600" data-i18n="termsConditions">Terms & Conditions</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact -->
+          <div class="text-center md:text-left">
+            <h4 class="text-sm font-semibold text-gray-700 mb-3">Contact</h4>
             <p class="text-sm text-gray-600 mb-2">
               <span data-i18n="contactEmail">Contact: </span>
               <a href="mailto:hi@jiashuiyin.com" class="text-blue-600 hover:text-blue-800 font-medium">
                 hi@jiashuiyin.com
               </a>
             </p>
-            <div class="flex items-center justify-center md:justify-end space-x-4">
+            <div class="flex items-center justify-center md:justify-start space-x-4">
               <a href="https://github.com/pdmaker/watermark-master" 
                  target="_blank" 
                  rel="noopener noreferrer"
@@ -579,27 +627,15 @@
         <!-- Divider -->
         <div class="border-t border-gray-200 my-6"></div>
 
-        <!-- Bottom Links -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Legal Links -->
-          <div class="text-center md:text-left">
-            <h4 class="text-sm font-semibold text-gray-700 mb-3">Legal</h4>
-            <div class="space-x-4">
-              <a href="/legal/en/privacy.html" class="text-sm text-gray-600 hover:text-blue-600" data-i18n="privacyPolicy">Privacy Policy</a>
-              <a href="/legal/en/terms.html" class="text-sm text-gray-600 hover:text-blue-600" data-i18n="termsConditions">Terms & Conditions</a>
-            </div>
-          </div>
-
-          <!-- Friendly Links -->
-          <div class="text-center md:text-right">
-            <h4 class="text-sm font-semibold text-gray-700 mb-3" data-i18n="friendlyLinks">Friendly Links</h4>
-            <div class="flex flex-wrap justify-center md:justify-end gap-4">
-              <a href="https://refhide.com/" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="RefHide">Hide your referrer</a>
-              <a href="https://daojishi.fun" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="retirementCountdown">Retirement Countdown</a>
-              <a href="https://keyboardcounter.top/" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="keyboardCounter">Keyboard Counter</a>
-              <a href="https://iframegenerator.app/" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="iframeGenerator">Webpage Iframe Generator</a>
-              <a href="https://openurls.net/" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="openUrlsBatch">Batch Open URLs</a>
-            </div>
+        <!-- Friendly Links -->
+        <div class="text-center">
+          <h4 class="text-sm font-semibold text-gray-700 mb-3" data-i18n="friendlyLinks">Friendly Links</h4>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="https://refhide.com/" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="RefHide">Hide your referrer</a>
+            <a href="https://daojishi.fun" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="retirementCountdown">Retirement Countdown</a>
+            <a href="https://keyboardcounter.top/" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="keyboardCounter">Keyboard Counter</a>
+            <a href="https://iframegenerator.app/" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="iframeGenerator">Webpage Iframe Generator</a>
+            <a href="https://openurls.net/" class="text-sm text-gray-600 hover:text-blue-600" target="_blank" rel="noopener noreferrer" data-i18n="openUrlsBatch">Batch Open URLs</a>
           </div>
         </div>
       </div>
@@ -622,6 +658,25 @@
             loadingMask.remove();
           }, 300);
         }
+      });
+    </script>
+
+    <!-- Add mobile menu JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuButton = document.getElementById('mobileMenuButton');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuButton.addEventListener('click', function() {
+          mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+          if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+          }
+        });
       });
     </script>
   </body>
