@@ -27,9 +27,77 @@
       property="og:image"
       content="https://jiashuiyin.com/images/logo.jpg"
     />
-    <link rel="preload" href="styles.css" as="style" />
+    <style>
+      /* 关键渲染路径所需的基础样式 */
+      body { background-color: #f3f4f6; margin: 0; font-family: system-ui, -apple-system, sans-serif; }
+      .container { max-width: 800px; margin: 0 auto; padding: 0 1rem; }
+      .bg-white { background-color: white; }
+      .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+      .fixed { position: fixed; }
+      .top-0 { top: 0; }
+      .left-0 { left: 0; }
+      .right-0 { right: 0; }
+      .z-50 { z-index: 50; }
+      .flex { display: flex; }
+      .items-center { align-items: center; }
+      .justify-between { justify-content: space-between; }
+      .px-4 { padding-left: 1rem; padding-right: 1rem; }
+      .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+      .text-xl { font-size: 1.25rem; }
+      .font-bold { font-weight: 700; }
+      .text-gray-800 { color: #1f2937; }
+      
+      /* 添加更多首屏关键样式 */
+      .space-x-8 > * + * { margin-left: 2rem; }
+      .cursor-pointer { cursor: pointer; }
+      .h-8 { height: 2rem; }
+      .w-8 { width: 2rem; }
+      .mr-2 { margin-right: 0.5rem; }
+      .text-gray-700 { color: #374151; }
+      .hover\:text-blue-500:hover { color: #3b82f6; }
+      .font-medium { font-weight: 500; }
+      .text-sm { font-size: 0.875rem; }
+      .rounded-lg { border-radius: 0.5rem; }
+      .p-6 { padding: 1.5rem; }
+      .mb-4 { margin-bottom: 1rem; }
+      .mt-2 { margin-top: 0.5rem; }
+      .border-2 { border-width: 2px; }
+      .border-dashed { border-style: dashed; }
+      .border-blue-500 { border-color: #3b82f6; }
+      .text-center { text-align: center; }
+      .transition-colors { transition-property: background-color, border-color, color, fill, stroke; }
+      .duration-300 { transition-duration: 300ms; }
+      
+      /* 添加页面初始化时的隐藏样式 */
+      .page-initializing {
+        opacity: 0;
+        visibility: hidden;
+      }
+      
+      /* 添加页面准备完成的样式 */
+      .page-ready {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease;
+      }
+      
+      /* 确保导航栏在加载时就有正确的样式 */
+      nav.bg-white {
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      }
+      
+      /* 添加首屏文本样式 */
+      .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+      .text-center { text-align: center; }
+      .text-gray-600 { color: #4b5563; }
+      .mb-6 { margin-bottom: 1.5rem; }
+    </style>
+    <!-- 异步加载非关键 CSS -->
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
     <link rel="preload" href="/images/logo.png" as="image" />
-    <link rel="stylesheet" href="styles.css" />
     <link
       rel="icon"
       type="image/x-icon"
@@ -89,8 +157,49 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4562467673017981"
     crossorigin="anonymous">
     </script>
+    <!-- 修改 JavaScript 加载 -->
+    <script>
+      // 内联关键的初始化代码
+      window.addEventListener('DOMContentLoaded', function() {
+        const pageLoader = document.getElementById('pageLoader');
+        if (pageLoader) pageLoader.style.display = 'none';
+      });
+    </script>
+    <!-- 延迟加载非关键脚本 -->
+    <script src="i18n.js" type="module" defer></script>
+    <script src="script.js" type="module" defer></script>
+    <!-- 优化 Google Analytics 加载 -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-4WH6LLGNFX', {
+        'send_page_view': false,
+        'transport_type': 'beacon'
+      });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4WH6LLGNFX"></script>
+    <!-- 异步加载 AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4562467673017981" crossorigin="anonymous"></script>
+    <!-- CSS 加载失败的回退方案 -->
+    <script>
+      // 如果CSS加载失败，使用回退方案
+      (function() {
+        var cssMain = document.querySelector('link[href="styles.css"]');
+        if (cssMain) {
+          cssMain.onerror = function() {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'styles.css';
+            document.head.appendChild(link);
+          };
+        }
+      })();
+    </script>
   </head>
-  <body class="bg-gray-100 font-sans">
+  <body class="bg-gray-100 font-sans page-initializing">
+    <!-- 添加一个初始加载遮罩 -->
+    <div id="initialLoadingMask" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: #f3f4f6; z-index: 9999;"></div>
     <div id="pageLoader" class="page-loader">
       <div class="loader-container">
         <div class="loader"></div>
@@ -106,7 +215,14 @@
         <div class="flex items-center space-x-8 nav-container">
           <!-- 品牌标识 -->
           <a href="/" class="flex items-center cursor-pointer">
-            <img src="../images/logo.png" alt="Logo" class="h-8 w-8 mr-2" />
+            <img 
+              src="../images/logo.png" 
+              alt="Logo" 
+              class="h-8 w-8 mr-2" 
+              width="32" 
+              height="32"
+              fetchpriority="high"
+            />
             <!-- 完整品牌名 -->
             <span class="text-xl font-bold text-gray-800 brand-name-full" data-i18n="logo">
               加水印.com
@@ -195,7 +311,10 @@
             <div class="file-status-container">
               <span data-i18n="noFileChosen">未选择图片</span>
             </div>
-            <div id="imagePreviewArea"></div>
+            <!-- 延迟加载的图片预览区域 -->
+            <div id="imagePreviewArea" class="hidden">
+              <!-- 动态加载的图片预览将使用 loading="lazy" -->
+            </div>
           </div>
           <div class="mb-4">
             <div class="flex justify-between items-center mb-2">
@@ -467,24 +586,6 @@
     <div id="imageModal" class="modal hidden">
       <img id="modalImage" src="" alt="放大预览" class="modal-content" />
     </div>
-    <script src="i18n.js" type="module"></script>
-    <script src="script.js" type="module"></script>
-    <script>
-      // 简化加载处理
-      document.addEventListener("DOMContentLoaded", function() {
-        // 移除进度条相关代码，保持简单的加载提示
-        const loadingText = document.querySelector(".loader-text");
-        loadingText.textContent = "页面加载中...";
-      });
-
-      window.addEventListener("load", function () {
-        const pageLoader = document.getElementById("pageLoader");
-        pageLoader.style.opacity = "0";
-        setTimeout(() => {
-          pageLoader.style.display = "none";
-        }, 300);
-      });
-    </script>
     <!-- Footer -->
     <footer class="bg-white mt-12 py-8 border-t border-gray-200">
       <div class="container mx-auto px-4">
@@ -551,5 +652,24 @@
         </div>
       </div>
     </footer>
+    <!-- 修改页面加载脚本 -->
+    <script>
+      // 页面加载优化
+      document.addEventListener('DOMContentLoaded', function() {
+        // 移除初始化类，添加准备完成类
+        document.body.classList.remove('page-initializing');
+        document.body.classList.add('page-ready');
+        
+        // 移除加载遮罩
+        const loadingMask = document.getElementById('initialLoadingMask');
+        if (loadingMask) {
+          loadingMask.style.opacity = '0';
+          loadingMask.style.transition = 'opacity 0.3s ease';
+          setTimeout(() => {
+            loadingMask.remove();
+          }, 300);
+        }
+      });
+    </script>
   </body>
 </html>

@@ -749,6 +749,7 @@ function updateFileNameDisplay() {
 // 修改 updateImagePreview 函数
 function updateImagePreview() {
     imagePreviewArea.innerHTML = ''; // 清空现有预览
+    imagePreviewArea.classList.remove('hidden');
 
     uploadedFiles.forEach((file, index) => {
         if (index < 20) { // 限制最多显示20个预览
@@ -760,6 +761,9 @@ function updateImagePreview() {
                 const img = document.createElement('img');
                 img.src = e.target.result;
                 img.className = 'w-16 h-16 object-cover rounded';
+                img.loading = 'lazy'; // 添加延迟加载
+                img.width = 64;  // 添加明确的尺寸
+                img.height = 64;
                 previewWrapper.appendChild(img);
                 
                 // 添加删除按钮
@@ -767,7 +771,7 @@ function updateImagePreview() {
                 deleteButton.className = 'absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity';
                 deleteButton.innerHTML = '×';
                 deleteButton.onclick = (e) => {
-                    e.stopPropagation(); // 防止触发上传区域的点击事件
+                    e.stopPropagation();
                     uploadedFiles.splice(index, 1);
                     updateFileInput();
                     updateFileNameDisplay();
@@ -781,10 +785,11 @@ function updateImagePreview() {
         }
     });
 
-    // 如果上传的文件超过20个，显示一个提示
+    // 优化提示信息显示
     if (uploadedFiles.length > 20) {
         const message = document.createElement('p');
-        message.textContent = `只显示前20张图片预览，共${uploadedFiles.length}张图片已上传`;
+        message.textContent = translations[currentLang].maxImagesMessage || 
+            `只显示前20张图片预览，共${uploadedFiles.length}张图片已上传`;
         message.className = 'text-sm text-gray-500 mt-2';
         imagePreviewArea.appendChild(message);
     }
