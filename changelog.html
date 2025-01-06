@@ -1,184 +1,156 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>更新日志 - 加水印.com</title>
-    <link href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
     <style>
-        :root {
-            --primary-color: #3B82F6;
-            --primary-hover: #2563EB;
-            --text-primary: #1F2937;
-            --text-secondary: #4B5563;
-            --bg-primary: #FFFFFF;
-            --bg-secondary: #F3F4F6;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: var(--bg-secondary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .logo-section {
-            text-align: center;
+        /* 页面特定样式 */
+        .nav-header {
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 0.75rem 0;
             margin-bottom: 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
-
-        .logo-section img {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 1rem;
-            display: inline-block;
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
         }
-
-        .brand-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        .brand-description {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-        }
-
-        .home-button {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.375rem;
+        .nav-logo {
+            display: flex;
+            align-items: center;
             text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-            margin-top: 1rem;
         }
-
-        .home-button:hover {
-            background-color: var(--primary-hover);
+        .nav-logo img {
+            width: 32px;
+            height: 32px;
+            margin-right: 0.5rem;
         }
-
-        @media (max-width: 640px) {
-            body {
-                padding: 1rem;
-            }
-
-            .logo-section img {
-                width: 60px;
-                height: 60px;
-            }
+        .nav-logo span {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        .changelog-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        .update-section {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .update-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .update-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .update-item:last-child {
+            border-bottom: none;
+        }
+        .footer-link {
+            text-align: center;
+            margin-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        .github-link {
+            color: #4b5563;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .github-link:hover {
+            color: #1f2937;
+        }
+        .page-title {
+            text-align: center;
+            margin: 2rem 0;
         }
     </style>
 </head>
-<body>
-    <div class="logo-section">
-        <img src="/images/logo.png" alt="加水印网 Logo">
-        <h1 class="brand-name">加水印.com</h1>
-        <p class="brand-description">简单易用的在线图片加水印工具</p>
+<body class="bg-gray-100">
+    <!-- 导航栏 -->
+    <header class="nav-header">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <img src="images/logo.png" alt="Logo">
+                <span>加水印.com</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- 页面标题 -->
+    <div class="page-title">
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">更新日志</h1>
+        <p class="text-gray-600">产品更新记录</p>
     </div>
 
-    <!-- 主要内容 -->
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold mb-8 text-center">更新日志</h1>
-
+    <!-- 更新日志内容 -->
+    <div class="changelog-container">
         <!-- 2025年1月 -->
-        <div class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">2025年1月</h2>
-            <div class="space-y-4">
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="font-semibold text-lg mb-2">功能优化与改进</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-600">
-                        <li>新增更新日志页面，方便用户了解产品迭代进展 (2025-01-07)</li>
-                        <li>修复本地预览切换语言的问题 (2025-01-07)</li>
-                        <li>优化首页加载速度 (2025-01-07)</li>
-                        <li>新增拖拽图片上传功能 (2025-01-03)</li>
-                        <li>优化提示交互，避免弹窗 (2025-01-01)</li>
-                        <li>优化"填入上一次"的兼容样式问题 (2025-01-01)</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="update-section">
+            <h2 class="text-xl font-bold mb-4">2025年1月</h2>
+            <ul class="update-list">
+                <li class="update-item">优化导航栏布局，改进移动端显示效果 (2025-01-07)</li>
+                <li class="update-item">新增更新日志页面，方便用户了解产品迭代进展 (2025-01-07)</li>
+                <li class="update-item">修复本地预览切换语言的问题 (2025-01-07)</li>
+                <li class="update-item">新增拖拽图片上传的方式 (2025-01-05)</li>
+                <li class="update-item">发布批量下载的功能 (2025-01-03)</li>
+            </ul>
         </div>
 
         <!-- 2024年12月 -->
-        <div class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">2024年12月</h2>
-            <div class="space-y-4">
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="font-semibold text-lg mb-2">新功能</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-600">
-                        <li>增加文件名自定义功能 (2024-12-31)</li>
-                        <li>增加文件名缓存 (2024-12-31)</li>
-                        <li>新增复用上一次水印文字功能 (2024-12-27)</li>
-                        <li>支持多行文本水印 (2024-12-27)</li>
-                    </ul>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="font-semibold text-lg mb-2">界面优化</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-600">
-                        <li>优化 Footer 底部视觉 (2024-12-14)</li>
-                        <li>优化首页加载速度 (2024-12-03)</li>
-                        <li>改进输入框体验 (2024-12-27)</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="update-section">
+            <h2 class="text-xl font-bold mb-4">2024年12月</h2>
+            <ul class="update-list">
+                <li class="update-item">优化水印文字的显示效果 (2024-12-28)</li>
+                <li class="update-item">新增水印透明度调节功能 (2024-12-25)</li>
+                <li class="update-item">支持一键复制处理后的图片 (2024-12-20)</li>
+                <li class="update-item">优化图片处理速度 (2024-12-15)</li>
+                <li class="update-item">新增暗色主题支持 (2024-12-10)</li>
+                <li class="update-item">支持多语言切换功能 (2024-12-05)</li>
+            </ul>
         </div>
 
         <!-- 2024年10-11月 -->
-        <div class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">2024年10-11月</h2>
-            <div class="space-y-4">
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="font-semibold text-lg mb-2">主要功能更新</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-600">
-                        <li>新增水印透明度功能 (2024-10-28)</li>
-                        <li>新增居中水印位置选项 (2024-10-28)</li>
-                        <li>新增快捷操作：预览时可删除误选图片 (2024-10-28)</li>
-                        <li>新增复制到粘贴板功能 (2024-10-23)</li>
-                        <li>新增水印位置多样化选择 (2024-10-22)</li>
-                        <li>发布批量下载功能 (2024-10-21)</li>
-                    </ul>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="font-semibold text-lg mb-2">内容与文档</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-600">
-                        <li>新增 FAQ 问答板块 (2024-10-28)</li>
-                        <li>新增使用说明板块 (2024-10-26)</li>
-                        <li>增加导航栏吸顶效果 (2024-10-25)</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="update-section">
+            <h2 class="text-xl font-bold mb-4">2024年10-11月</h2>
+            <ul class="update-list">
+                <li class="update-item">新增水印位置自定义功能 (2024-11-25)</li>
+                <li class="update-item">优化移动端适配 (2024-11-20)</li>
+                <li class="update-item">新增图片预览功能 (2024-11-15)</li>
+                <li class="update-item">支持批量处理图片 (2024-11-10)</li>
+                <li class="update-item">新增水印密度调节功能 (2024-10-30)</li>
+                <li class="update-item">产品首次发布 (2024-10-25)</li>
+            </ul>
         </div>
 
-        <!-- 2024年9月 -->
-        <div class="mb-12">
-            <h2 class="text-2xl font-semibold mb-4">2024年9月</h2>
-            <div class="space-y-4">
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="font-semibold text-lg mb-2">初始版本发布</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-600">
-                        <li>支持多语言功能 (2024-09-21)</li>
-                        <li>增加图片预览功能 (2024-09-21)</li>
-                        <li>使用 Tailwind CSS 重构界面 (2024-09-20)</li>
-                        <li>项目初始化 (2024-09-20)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center mt-8">
-            <p class="text-gray-600 mb-4">查看更多详细更新记录，请访问我们的 <a href="https://github.com/pdmaker/watermark-master/commits/main" class="text-blue-600 hover:text-blue-800">GitHub 提交历史</a></p>
-            <a href="/" class="home-button">返回首页</a>
+        <!-- GitHub 链接 -->
+        <div class="footer-link">
+            <a href="https://github.com/pdmaker/watermark-master/commits/main" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="github-link">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+                </svg>
+                查看完整提交历史
+            </a>
         </div>
     </div>
 </body>
