@@ -651,3 +651,45 @@ select:disabled {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* 加强 Footer 标题的加粗效果 */
+footer h4 {
+  font-weight: 600 !important; /* 使用 !important 确保样式优先级 */
+}
+
+@media (max-width: 640px) {
+  footer h4 {
+    font-weight: 600 !important;
+  }
+}
+
+/* 优化 Footer 响应式布局 */
+@media (max-width: 640px) {
+  footer .grid {
+    gap: 2rem;
+  }
+  
+  footer h4 {
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+  }
+}
+
+/* 标题响应式显示控制 */
+.pc-title {
+  display: none;
+}
+
+.mobile-title {
+  display: block;
+}
+
+@media (min-width: 640px) {
+  .pc-title {
+    display: block;
+  }
+  
+  .mobile-title {
+    display: none;
+  }
+}
