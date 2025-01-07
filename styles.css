@@ -675,6 +675,22 @@ footer h4 {
   }
 }
 
+/* 标题容器固定样式 */
+.title-container {
+  padding-top: 0.5rem;
+  min-height: 80px; /* 减小最小高度 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width: 640px) {
+  .title-container {
+    padding-top: 0.25rem;
+    min-height: 50px; /* 移动端更小的高度 */
+  }
+}
+
 /* 标题响应式显示控制 */
 .pc-title {
   display: none;
