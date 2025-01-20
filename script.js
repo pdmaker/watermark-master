@@ -644,9 +644,14 @@ function processImage(file, existingFilenames = {}) {
             downloadLink.href = canvas.toDataURL(file.type || 'image/png');
             downloadLink.className = 'download-button';
             downloadLink.textContent = translations[currentLang].downloadImage;
-            // 更新下载链接的文件名
+            // 更新下载链接的文件名，确保有后缀
             downloadLink.addEventListener('click', function(e) {
-                this.download = filenameInput.value;
+                let filename = filenameInput.value;
+                // 如果文件名没有后缀，添加.png后缀
+                if (!filename.match(/\.[^.]+$/)) {
+                    filename += '.png';
+                }
+                this.download = filename;
             });
             buttonGroup.appendChild(downloadLink);
 
@@ -838,21 +843,43 @@ async function downloadAllImages() {
     // 收集所有预览项
     const previewItems = Array.from(previewContainer.querySelectorAll('.preview-item'));
     
-    // 添加所有图片到 zip
-    for (let i = 0; i < previewItems.length; i++) {
-        const previewItem = previewItems[i];
-        const img = previewItem.querySelector('img');
-        const filenameInput = previewItem.querySelector('input[type="text"]');
-        const filename = filenameInput.value;
-        
-        const imageBlob = await fetch(img.src).then(r => r.blob());
-        zip.file(filename, imageBlob);
-    }
+    try {
+        // 等待所有图片添加完成
+        await Promise.all(previewItems.map(async (previewItem) => {
+            const img = previewItem.querySelector('img');
+            const filenameInput = previewItem.querySelector('input[type="text"]');
+            
+            // 确保文件名有后缀
+            let filename = filenameInput.value.trim();
+            if (!filename.toLowerCase().match(/\.(png|jpe?g|gif|webp|bmp)$/)) {
+                filename += '.png';
+            }
+            
+            try {
+                const response = await fetch(img.src);
+                const blob = await response.blob();
+                // 确保blob的type是正确的
+                const imageBlob = new Blob([blob], { type: 'image/png' });
+                zip.file(filename, imageBlob, { binary: true });
+            } catch (error) {
+                console.error('处理图片出错:', error);
+                throw error;
+            }
+        }));
 
-    // 生成并下载 zip 文件
-    zip.generateAsync({type:"blob"}).then(function(content) {
+        // 生成并下载 zip 文件
+        const content = await zip.generateAsync({
+            type: "blob",
+            compression: "DEFLATE",
+            compressionOptions: {
+                level: 9
+            }
+        });
         FileSaver.saveAs(content, zipFilename);
-    });
+    } catch (error) {
+        console.error('下载出错:', error);
+        alert(translations[currentLang].downloadError || '下载出错，请重试');
+    }
 }
 
 // 添加个辅助函数来生成时间戳
