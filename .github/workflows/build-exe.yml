@@ -1,0 +1,33 @@
+name: Build and Release EXE
+
+on:
+  push:
+    tags:
+      - "v*"  # 只有推送 tag (如 v1.0.0) 时才触发
+  workflow_dispatch:  # 允许手动触发
+  
+jobs:
+  build:
+    runs-on: windows-latest  # 运行环境：Windows
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16  # 选择合适的 Node.js 版本
+
+      - name: Install pkg
+        run: npm install -g pkg
+
+      - name: Build EXE
+        run: pkg .
+
+      - name: Upload EXE to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: watermark.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

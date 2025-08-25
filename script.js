@@ -1,6 +1,4 @@
 import { translations, setLanguage, updateURL, currentLang } from './i18n.js';
-import JSZip from 'https://jspm.dev/jszip';
-import FileSaver from 'https://jspm.dev/file-saver';
 
 const imageInput = document.getElementById('imageInput');
 const watermarkText = document.getElementById('watermarkText');
@@ -120,12 +118,6 @@ function initializeColorInput() {
 // 将所有初始化和事件监听器的设置放个函数中
 async function initialize() {
     try {
-        // 等待所有模块加载完成
-        await Promise.all([
-            import('https://jspm.dev/jszip'),
-            import('https://jspm.dev/file-saver')
-        ]);
-
         initializeColorInput();
         initializeFileInput();
         watermarkColor.addEventListener('input', updateColorPreview);

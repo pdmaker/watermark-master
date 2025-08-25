@@ -88,7 +88,22 @@ blog/
    ```
    node preview-node.js
 
+## 打包windows运行的exe
 
+运行时直接开浏览器页面，命令窗口需收到关闭
+1. 安装依赖+打包
+   ```
+   cd watermark-master
+   npm install -g pkg
+   pkg preview-node.js --output watermark.exe
+   #如果exe执行报not found，使用以下打包命令
+   npm run pkg
+
+   ```
+ - 如果下载很慢，可以去https://github.com/vercel/pkg-fetch/releases手动下载
+ - 放到C:\Users\Administrator\.pkg-cache\v3.4
+ - 下载的内容是“node-v16.16.0-win-x64”，需要重命名“fetched-v16.16.0-win-x64”
+   
 ## 贡献
 
 欢迎提交 Pull Requests 来改进这个项目。对于重大变更，请先开 issue 讨论您想要改变的内容。

@@ -1,0 +1,17 @@
+{
+  "name": "watermark",
+  "bin": "preview-node.js",
+  "scripts": {
+    "pkg": "pkg . --out-path ./"
+  },
+  "pkg": {
+    "assets": [
+      "**/*.js",
+      "**/*.xml",
+      "**/*.css",
+      "**/*.html",
+      "./images/*"
+    ],
+    "targets": ["node16-win-x64"]
+  }
+}
