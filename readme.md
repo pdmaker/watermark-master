@@ -96,6 +96,9 @@ blog/
    cd watermark-master
    npm install -g pkg
    pkg preview-node.js --output watermark.exe
+   #如果exe执行报not found，使用以下打包命令
+   npm run pkg
+
    ```
  - 如果下载很慢，可以去https://github.com/vercel/pkg-fetch/releases手动下载
  - 放到C:\Users\Administrator\.pkg-cache\v3.4
