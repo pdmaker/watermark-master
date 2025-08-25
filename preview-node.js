@@ -10,10 +10,12 @@ const staticPath = path.join(__dirname, '/');
 http.createServer((req, res) => {
     // 检查请求的URL路径
     const filePath = path.join(staticPath, req.url === '/' ? 'index.html' : req.url);
+    console.log('filePath = ' + filePath)
 
     // 读取文件并返回给客户端
     fs.readFile(filePath, (err, data) => {
         if (err) {
+            console.log('readFile error: ' + filePath)
             // 如果文件不存在，返回404错误
             res.writeHead(404);
             res.end('404 Not Found');

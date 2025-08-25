@@ -2,7 +2,7 @@
   "name": "watermark",
   "bin": "preview-node.js",
   "scripts": {
-    "pkg": "pkg . --out-path ../"
+    "pkg": "pkg . --out-path ./"
   },
   "pkg": {
     "assets": [
